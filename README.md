@@ -44,7 +44,7 @@ Debug ビルドでは bin フォルダ以下に Windows Desktop アプリケー�
 
 ## ライセンス
 
-[MIT license](https://github.com/tenpoku1000/UEFI_FreeType_MSVC/LICENCE)
+[MIT license](https://raw.githubusercontent.com/tenpoku1000/UEFI_FreeType_MSVC/master/LICENSE)
 
 ## 作者
 

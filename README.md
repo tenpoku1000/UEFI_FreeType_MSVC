@@ -2,7 +2,7 @@
 
 UEFI アプリケーションで、英日中韓台のアウトライン・フォント表示を行うサンプル・プログラムです。
 
-![screen shot](https://github.com/tenpoku1000/UEFI_FreeType_MSVC/images/README.png)
+![screen shot](/images/README.png)
 
 ## 開発環境
 

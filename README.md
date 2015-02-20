@@ -25,6 +25,8 @@ http://www.microsoft.com/ja-jp/dev/products/community.aspx
 ## ビルド方法
 
 * UEFI_FreeType_MSVC.sln をダブルクリックします。
+* Visual Studio のセキュリティ警告を回避してプロジェクトを開きます。  
+![warning](https://raw.githubusercontent.com/tenpoku1000/UEFI_FreeType_MSVC/master/images/MSVC.PNG)
 * Visual Studio の起動後に F7 キーを押下します。
 
 Release ビルドでは efi フォルダ以下に UEFI アプリケーションを生成します。  

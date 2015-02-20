@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\efi.h" />
+    <ClInclude Include="inc\efiapi.h" />
+    <ClInclude Include="inc\eficon.h" />
+    <ClInclude Include="inc\efidebug.h" />
+    <ClInclude Include="inc\efidef.h" />
+    <ClInclude Include="inc\efidevp.h" />
+    <ClInclude Include="inc\efierr.h" />
+    <ClInclude Include="inc\efifs.h" />
+    <ClInclude Include="inc\efigpt.h" />
+    <ClInclude Include="inc\efiip.h" />
+    <ClInclude Include="inc\efilib.h" />
+    <ClInclude Include="inc\efilink.h" />
+    <ClInclude Include="inc\efinet.h" />
+    <ClInclude Include="inc\efipart.h" />
+    <ClInclude Include="inc\efipciio.h" />
+    <ClInclude Include="inc\efipoint.h" />
+    <ClInclude Include="inc\efiprot.h" />
+    <ClInclude Include="inc\efipxebc.h" />
+    <ClInclude Include="inc\efirtlib.h" />
+    <ClInclude Include="inc\efiser.h" />
+    <ClInclude Include="inc\efishellintf.h" />
+    <ClInclude Include="inc\efishellparm.h" />
+    <ClInclude Include="inc\efistdarg.h" />
+    <ClInclude Include="inc\efitcp.h" />
+    <ClInclude Include="inc\efiudp.h" />
+    <ClInclude Include="inc\efiui.h" />
+    <ClInclude Include="inc\efi_nii.h" />
+    <ClInclude Include="inc\efi_pxe.h" />
+    <ClInclude Include="inc\libsmbios.h" />
+    <ClInclude Include="inc\pci22.h" />
+    <ClInclude Include="inc\protocol\adapterdebug.h" />
+    <ClInclude Include="inc\protocol\eficonsplit.h" />
+    <ClInclude Include="inc\protocol\efidbg.h" />
+    <ClInclude Include="inc\protocol\efivar.h" />
+    <ClInclude Include="inc\protocol\intload.h" />
+    <ClInclude Include="inc\protocol\legacyboot.h" />
+    <ClInclude Include="inc\protocol\piflash64.h" />
+    <ClInclude Include="inc\protocol\vgaclass.h" />
+    <ClInclude Include="inc\romload.h" />
+    <ClInclude Include="inc\x86_64\efibind.h" />
+    <ClInclude Include="inc\x86_64\efilibplat.h" />
+    <ClInclude Include="inc\x86_64\pe.h" />
+    <ClInclude Include="lib\lib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib\boxdraw.c" />
+    <ClCompile Include="lib\cmdline.c" />
+    <ClCompile Include="lib\console.c" />
+    <ClCompile Include="lib\crc.c" />
+    <ClCompile Include="lib\data.c" />
+    <ClCompile Include="lib\debug.c" />
+    <ClCompile Include="lib\dpath.c" />
+    <ClCompile Include="lib\error.c" />
+    <ClCompile Include="lib\event.c" />
+    <ClCompile Include="lib\guid.c" />
+    <ClCompile Include="lib\hand.c" />
+    <ClCompile Include="lib\hw.c" />
+    <ClCompile Include="lib\init.c" />
+    <ClCompile Include="lib\lock.c" />
+    <ClCompile Include="lib\misc.c" />
+    <ClCompile Include="lib\print.c" />
+    <ClCompile Include="lib\runtime\efirtlib.c" />
+    <ClCompile Include="lib\runtime\rtdata.c" />
+    <ClCompile Include="lib\runtime\rtlock.c" />
+    <ClCompile Include="lib\runtime\rtstr.c" />
+    <ClCompile Include="lib\runtime\vm.c" />
+    <ClCompile Include="lib\smbios.c" />
+    <ClCompile Include="lib\sread.c" />
+    <ClCompile Include="lib\str.c" />
+    <ClCompile Include="lib\x86_64\callwrap.c" />
+    <ClCompile Include="lib\x86_64\initplat.c" />
+    <ClCompile Include="lib\x86_64\math.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D69A66BA-0AD9-4ACA-9A4D-95CB162FB849}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>gnuefi</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>gnu-efi</TargetName>
+    <OutDir>$(SolutionDir)\lib\debug\</OutDir>
+    <IntDir>$(SolutionDir)\output\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>gnu-efi</TargetName>
+    <OutDir>$(SolutionDir)\lib\</OutDir>
+    <IntDir>$(SolutionDir)\output\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>
+      </SDLCheck>
+      <AdditionalIncludeDirectories>.\inc; .\inc\x86_64; .\inc\protocol; .\lib</AdditionalIncludeDirectories>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
+      <DisableSpecificWarnings>4133</DisableSpecificWarnings>
+      <CompileAsManaged>false</CompileAsManaged>
+      <OmitFramePointers>false</OmitFramePointers>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <LinkTimeCodeGeneration />
+      <SubSystem>Windows</SubSystem>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>
+      </SDLCheck>
+      <AdditionalIncludeDirectories>.\inc; .\inc\x86_64; .\inc\protocol; .\lib</AdditionalIncludeDirectories>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
+      <DisableSpecificWarnings>4133</DisableSpecificWarnings>
+      <CompileAsManaged>false</CompileAsManaged>
+      <OmitFramePointers>false</OmitFramePointers>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <DebugInformationFormat>None</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <SubSystem>EFI Application</SubSystem>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

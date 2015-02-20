@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\string">
+      <UniqueIdentifier>{782b9df2-438a-4272-9cb7-2e6e0b7ab093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\internal">
+      <UniqueIdentifier>{1f9fbab1-d391-42cb-97f6-189c05e50efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\internal">
+      <UniqueIdentifier>{615700ac-d124-4d97-8478-effa65b7d401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\malloc">
+      <UniqueIdentifier>{a990798e-0f2f-40ed-85c4-4726ac929990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\stdlib">
+      <UniqueIdentifier>{c17022d1-c097-406f-920f-ad50f27be4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\stdio">
+      <UniqueIdentifier>{41e9ba50-393c-481e-b801-3c38f04dce24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\setjmp">
+      <UniqueIdentifier>{dfb24ff5-6fdc-4564-857f-1fd304092dca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\setjmp\x86_64">
+      <UniqueIdentifier>{4b666d24-7fdd-46db-829d-04f455f4dd34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\error">
+      <UniqueIdentifier>{909a327f-718d-4ea5-b09e-56b5ddf5fa89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\multibyte">
+      <UniqueIdentifier>{3352c603-f781-4f46-acca-b7a8f10c516c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\math">
+      <UniqueIdentifier>{0557685c-9660-4f2c-9b1a-1d9e9caf6577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\locale">
+      <UniqueIdentifier>{a3aabd1a-b8a7-4176-b33c-55182c2066e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\bits">
+      <UniqueIdentifier>{45ed60bd-cdcc-431f-8bfa-a790159e7162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\arch">
+      <UniqueIdentifier>{f6d21baf-9d3e-48d1-8e02-ac83a3c9b689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\sys">
+      <UniqueIdentifier>{57ec817a-0e16-4f91-b194-d0bc20b7c413}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\string\memchr.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\memmove.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\memrchr.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\stpcpy.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strncmp.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strncpy.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strrchr.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strstr.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\internal\libc.c">
+      <Filter>ソース ファイル\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\malloc\malloc.c">
+      <Filter>ソース ファイル\malloc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdlib\atol.c">
+      <Filter>ソース ファイル\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdlib\qsort.c">
+      <Filter>ソース ファイル\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\sprintf.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\vfprintf.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\vsnprintf.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\vsprintf.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\fclose.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\fopen.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\fread.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\fseek.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\ftell.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__fmodeflags.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__stdio_close.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__stdio_read.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__stdio_seek.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__fdopen.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\malloc\calloc.c">
+      <Filter>ソース ファイル\malloc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\stpncpy.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strchr.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\errno\__errno_location.c">
+      <Filter>ソース ファイル\error</Filter>
+    </ClCompile>
+    <ClCompile Include="src\errno\strerror.c">
+      <Filter>ソース ファイル\error</Filter>
+    </ClCompile>
+    <ClCompile Include="src\multibyte\wctomb.c">
+      <Filter>ソース ファイル\multibyte</Filter>
+    </ClCompile>
+    <ClCompile Include="src\multibyte\wcrtomb.c">
+      <Filter>ソース ファイル\multibyte</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\frexpl.c">
+      <Filter>ソース ファイル\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strchrnul.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\locale\__lctrans.c">
+      <Filter>ソース ファイル\locale</Filter>
+    </ClCompile>
+    <ClCompile Include="src\locale\__setlocalecat.c">
+      <Filter>ソース ファイル\locale</Filter>
+    </ClCompile>
+    <ClCompile Include="src\locale\__mo_lookup.c">
+      <Filter>ソース ファイル\locale</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__lockfile.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\fwrite.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__stdio_write.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__towrite.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\fprintf.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\memcmp.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\memcpy.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\memset.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strcmp.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\stderr.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\stdin.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\stdout.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strlen.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strcat.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string\strcpy.c">
+      <Filter>ソース ファイル\string</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\setjmp.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stdarg.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stdio.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stdlib.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\string.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\internal\libc.h">
+      <Filter>ヘッダー ファイル\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\internal\stdio_impl.h">
+      <Filter>ヘッダー ファイル\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\internal\locale_impl.h">
+      <Filter>ヘッダー ファイル\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\internal\libm.h">
+      <Filter>ヘッダー ファイル\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\internal\pthread_impl.h">
+      <Filter>ヘッダー ファイル\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stddef.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bits\alltypes.h">
+      <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bits\setjmp.h">
+      <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bits\stdarg.h">
+      <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+    <ClInclude Include="arch\x86_64\atomic.h">
+      <Filter>ヘッダー ファイル\arch</Filter>
+    </ClInclude>
+    <ClInclude Include="arch\x86_64\pthread_arch.h">
+      <Filter>ヘッダー ファイル\arch</Filter>
+    </ClInclude>
+    <ClInclude Include="arch\x86_64\syscall_arch.h">
+      <Filter>ヘッダー ファイル\arch</Filter>
+    </ClInclude>
+    <ClInclude Include="src\internal\syscall.h">
+      <Filter>ヘッダー ファイル\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sys\syscall.h">
+      <Filter>ヘッダー ファイル\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bits\syscall.h">
+      <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+    <ClInclude Include="include\endian.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\float.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stdint.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bits\endian.h">
+      <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bits\float.h">
+      <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bits\stdint.h">
+      <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\features.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\limits.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bits\limits.h">
+      <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="src\setjmp\x86_64\longjmp.asm">
+      <Filter>ソース ファイル\setjmp\x86_64</Filter>
+    </MASM>
+    <MASM Include="src\setjmp\x86_64\setjmp.asm">
+      <Filter>ソース ファイル\setjmp\x86_64</Filter>
+    </MASM>
+  </ItemGroup>
+</Project>

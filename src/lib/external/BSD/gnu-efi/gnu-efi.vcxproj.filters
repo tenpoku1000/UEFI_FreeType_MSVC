@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\runtime">
+      <UniqueIdentifier>{f5c315d9-594c-44de-a8be-a2f2a8fc8716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\protocol">
+      <UniqueIdentifier>{2a120b77-39a9-4369-add9-ba8d4fec8427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\x86_64">
+      <UniqueIdentifier>{3ff9c085-3bdb-4145-aa15-9858cc8eac1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\x86_64">
+      <UniqueIdentifier>{0dcd3d5d-0b55-43ba-85ab-d7912ef12bda}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\efi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efi_nii.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efi_pxe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efiapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\eficon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efidebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efidef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efidevp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efierr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efifs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efigpt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efiip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efilib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efilink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efinet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efipart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efipciio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efipoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efiprot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efipxebc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efirtlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efiser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efishellintf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efishellparm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efistdarg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efitcp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efiudp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\efiui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\libsmbios.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\pci22.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\romload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\protocol\adapterdebug.h">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\protocol\eficonsplit.h">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\protocol\efidbg.h">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\protocol\efivar.h">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\protocol\intload.h">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\protocol\legacyboot.h">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\protocol\piflash64.h">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\protocol\vgaclass.h">
+      <Filter>Header Files\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\x86_64\efibind.h">
+      <Filter>Header Files\x86_64</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\x86_64\efilibplat.h">
+      <Filter>Header Files\x86_64</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\x86_64\pe.h">
+      <Filter>Header Files\x86_64</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\lib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lib\boxdraw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\cmdline.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\console.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\crc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\dpath.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\error.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\event.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\guid.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\hand.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\hw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\lock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\print.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\smbios.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\sread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\str.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\runtime\efirtlib.c">
+      <Filter>Source Files\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\runtime\rtdata.c">
+      <Filter>Source Files\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\runtime\rtlock.c">
+      <Filter>Source Files\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\runtime\rtstr.c">
+      <Filter>Source Files\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\runtime\vm.c">
+      <Filter>Source Files\runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\x86_64\callwrap.c">
+      <Filter>Source Files\x86_64</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\x86_64\initplat.c">
+      <Filter>Source Files\x86_64</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\x86_64\math.c">
+      <Filter>Source Files\x86_64</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

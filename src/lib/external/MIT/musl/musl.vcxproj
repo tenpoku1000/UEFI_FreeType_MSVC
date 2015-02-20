@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\errno\strerror.c" />
+    <ClCompile Include="src\errno\__errno_location.c" />
+    <ClCompile Include="src\internal\libc.c" />
+    <ClCompile Include="src\locale\__lctrans.c" />
+    <ClCompile Include="src\locale\__mo_lookup.c" />
+    <ClCompile Include="src\locale\__setlocalecat.c" />
+    <ClCompile Include="src\malloc\calloc.c" />
+    <ClCompile Include="src\malloc\malloc.c" />
+    <ClCompile Include="src\math\frexpl.c" />
+    <ClCompile Include="src\multibyte\wcrtomb.c" />
+    <ClCompile Include="src\multibyte\wctomb.c" />
+    <ClCompile Include="src\stdio\fclose.c" />
+    <ClCompile Include="src\stdio\fopen.c" />
+    <ClCompile Include="src\stdio\fprintf.c" />
+    <ClCompile Include="src\stdio\fread.c" />
+    <ClCompile Include="src\stdio\fseek.c" />
+    <ClCompile Include="src\stdio\ftell.c" />
+    <ClCompile Include="src\stdio\fwrite.c" />
+    <ClCompile Include="src\stdio\sprintf.c" />
+    <ClCompile Include="src\stdio\stderr.c" />
+    <ClCompile Include="src\stdio\stdin.c" />
+    <ClCompile Include="src\stdio\stdout.c" />
+    <ClCompile Include="src\stdio\vfprintf.c" />
+    <ClCompile Include="src\stdio\vsnprintf.c" />
+    <ClCompile Include="src\stdio\vsprintf.c" />
+    <ClCompile Include="src\stdio\__fdopen.c" />
+    <ClCompile Include="src\stdio\__fmodeflags.c" />
+    <ClCompile Include="src\stdio\__lockfile.c" />
+    <ClCompile Include="src\stdio\__stdio_close.c" />
+    <ClCompile Include="src\stdio\__stdio_read.c" />
+    <ClCompile Include="src\stdio\__stdio_seek.c" />
+    <ClCompile Include="src\stdio\__stdio_write.c" />
+    <ClCompile Include="src\stdio\__towrite.c" />
+    <ClCompile Include="src\stdlib\atol.c" />
+    <ClCompile Include="src\stdlib\qsort.c" />
+    <ClCompile Include="src\string\memchr.c" />
+    <ClCompile Include="src\string\memcmp.c" />
+    <ClCompile Include="src\string\memcpy.c" />
+    <ClCompile Include="src\string\memmove.c" />
+    <ClCompile Include="src\string\memrchr.c" />
+    <ClCompile Include="src\string\memset.c" />
+    <ClCompile Include="src\string\stpcpy.c" />
+    <ClCompile Include="src\string\stpncpy.c" />
+    <ClCompile Include="src\string\strcat.c" />
+    <ClCompile Include="src\string\strchr.c" />
+    <ClCompile Include="src\string\strchrnul.c" />
+    <ClCompile Include="src\string\strcmp.c" />
+    <ClCompile Include="src\string\strcpy.c" />
+    <ClCompile Include="src\string\strlen.c" />
+    <ClCompile Include="src\string\strncmp.c" />
+    <ClCompile Include="src\string\strncpy.c" />
+    <ClCompile Include="src\string\strrchr.c" />
+    <ClCompile Include="src\string\strstr.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="arch\x86_64\atomic.h" />
+    <ClInclude Include="arch\x86_64\pthread_arch.h" />
+    <ClInclude Include="arch\x86_64\syscall_arch.h" />
+    <ClInclude Include="include\bits\alltypes.h" />
+    <ClInclude Include="include\bits\endian.h" />
+    <ClInclude Include="include\bits\float.h" />
+    <ClInclude Include="include\bits\limits.h" />
+    <ClInclude Include="include\bits\setjmp.h" />
+    <ClInclude Include="include\bits\stdarg.h" />
+    <ClInclude Include="include\bits\stdint.h" />
+    <ClInclude Include="include\bits\syscall.h" />
+    <ClInclude Include="include\endian.h" />
+    <ClInclude Include="include\features.h" />
+    <ClInclude Include="include\float.h" />
+    <ClInclude Include="include\limits.h" />
+    <ClInclude Include="include\math.h" />
+    <ClInclude Include="include\setjmp.h" />
+    <ClInclude Include="include\stdarg.h" />
+    <ClInclude Include="include\stddef.h" />
+    <ClInclude Include="include\stdint.h" />
+    <ClInclude Include="include\stdio.h" />
+    <ClInclude Include="include\stdlib.h" />
+    <ClInclude Include="include\string.h" />
+    <ClInclude Include="include\sys\syscall.h" />
+    <ClInclude Include="src\internal\libc.h" />
+    <ClInclude Include="src\internal\libm.h" />
+    <ClInclude Include="src\internal\locale_impl.h" />
+    <ClInclude Include="src\internal\pthread_impl.h" />
+    <ClInclude Include="src\internal\stdio_impl.h" />
+    <ClInclude Include="src\internal\syscall.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="src\setjmp\x86_64\longjmp.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="src\setjmp\x86_64\setjmp.asm">
+      <FileType>Document</FileType>
+    </MASM>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{91040D01-285B-49E4-B70B-074C57567F15}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>musl</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)\lib\debug\</OutDir>
+    <IntDir>$(SolutionDir)\output\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)\lib\</OutDir>
+    <IntDir>$(SolutionDir)\output\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level2</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src\lib\win64env;$(SolutionDir)\src\lib\external\BSD\gnu-efi\inc\x86_64;$(SolutionDir)\src\lib\external\BSD\gnu-efi\inc;$(SolutionDir)\src\lib\external\MIT\musl\arch\x86_64;$(SolutionDir)\src\lib\external\MIT\musl\include;$(SolutionDir)\src\lib\external\MIT\musl\src\internal</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4146;4133;4142</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/Gs40960 %(AdditionalOptions)</AdditionalOptions>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
+      <CompileAsManaged>false</CompileAsManaged>
+      <OmitFramePointers>false</OmitFramePointers>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <LinkTimeCodeGeneration />
+      <SubSystem>Windows</SubSystem>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level2</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src\lib\win64env;$(SolutionDir)\src\lib\external\BSD\gnu-efi\inc\x86_64;$(SolutionDir)\src\lib\external\BSD\gnu-efi\inc;$(SolutionDir)\src\lib\external\MIT\musl\arch\x86_64;$(SolutionDir)\src\lib\external\MIT\musl\include;$(SolutionDir)\src\lib\external\MIT\musl\src\internal</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4146;4133;4142</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/Gs40960 %(AdditionalOptions)</AdditionalOptions>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <DisableLanguageExtensions>true</DisableLanguageExtensions>
+      <CompileAsManaged>false</CompileAsManaged>
+      <OmitFramePointers>false</OmitFramePointers>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <DebugInformationFormat>None</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <SubSystem>EFI Application</SubSystem>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>

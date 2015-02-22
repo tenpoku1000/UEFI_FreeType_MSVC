@@ -19,7 +19,7 @@ http://www.visualstudio.com/ja-jp/products/visual-studio-community-vs.aspx
 * efi フォルダを USB メモリにコピーします。
 * Windows を再起動します。
 * UEFI BIOS 画面を表示させ、USB メモリを Boot 順序最優先に設定します。  
-  セキュアブート対応 PC ではセキュアブートを無効に設定します（無効化出来ない PC では動作しません）。
+  セキュアブート対応 PC ではセキュアブートを無効に設定します（無効化出来ない PC では動作不可）。
 * UEFI BIOS の設定を保存して UEFI BIOS 画面から抜けると UEFI アプリケーションが実行されます。
 * USB メモリを PC から抜いて任意のキーを押すと、PC がリセットされて Windows が起動します。
 

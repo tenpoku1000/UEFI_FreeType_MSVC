@@ -10,6 +10,8 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+#define SCREEN_WIDTH 1024
+
 static void draw_text(
 	EFI_GRAPHICS_OUTPUT_PROTOCOL* gop, FT_Face face, UINTN x, UINTN y, CHAR16* text
 );
@@ -230,6 +232,11 @@ static void init(
 			set_mode_num = mode_num;
 
 			valid_query_mode = true;
+
+			if (HorizontalResolution == SCREEN_WIDTH){
+
+				break;
+			}
 		}
 	}
 

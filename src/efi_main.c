@@ -259,11 +259,11 @@ static void init(
 
 	CHAR16* path = L"\\efi\\boot\\fonts\\SourceHanSans-Normal.ttc";
 #if 1
-	UINTN buffer_size = 0;
+	FT_Long buffer_size = 0;
 
-	load_file(path, &buffer_size, buffer);
+	load_file(path, (UINTN*)&buffer_size, buffer);
 
-	FT_Error err = FT_New_Memory_Face(*library, (const FT_Byte*)*buffer, (FT_Long)&buffer_size, 0, face);
+	FT_Error err = FT_New_Memory_Face(*library, (const FT_Byte*)*buffer, buffer_size, 0, face);
 #else
 	FT_Error err = FT_New_Face(library, path, 0, face);
 

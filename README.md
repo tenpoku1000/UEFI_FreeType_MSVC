@@ -58,5 +58,7 @@ Debug ビルドでは bin フォルダ以下に Windows Desktop アプリケー�
 
 ## 参考資料
 
+* Play with UEFI http://www.slideshare.net/syuu1228/play-with-uefi
 * UEFI - PhoenixWiki http://wiki.phoenix.com/wiki/index.php/UEFI
 * FreeType使用記録 http://hp.vector.co.jp/authors/VA028002/freetype.html
+

@@ -1,12 +1,14 @@
 
+// Copyright 2015 Shin'ichi Ichikawa. Released under the MIT license.
+
 #ifndef __WIN64ENV_H__
 #define __WIN64ENV_H__
 
 void* create_file(
-	wchar_t* file_name, unsigned long long int flags,
-	unsigned long long int efi_file_mode_read,
-	unsigned long long int efi_file_mode_write,
-	unsigned long long int efi_file_mode_create
+    wchar_t* file_name, unsigned long long int flags,
+    unsigned long long int efi_file_mode_read,
+    unsigned long long int efi_file_mode_write,
+    unsigned long long int efi_file_mode_create
 );
 int read_file(void* hFile, unsigned char* buf, size_t* len);
 int write_file(void* hFile, const unsigned char* buf, size_t* len);

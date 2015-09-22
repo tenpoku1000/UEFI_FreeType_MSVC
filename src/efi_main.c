@@ -1,4 +1,6 @@
 ﻿
+// Copyright 2015 Shin'ichi Ichikawa. Released under the MIT license.
+
 #if !defined(_DEBUG)
 
 #include<efi.h>
@@ -13,395 +15,388 @@
 #define SCREEN_WIDTH 1024
 
 static void draw_text(
-	EFI_GRAPHICS_OUTPUT_PROTOCOL* gop, FT_Face face, UINTN x, UINTN y, CHAR16* text
+    EFI_GRAPHICS_OUTPUT_PROTOCOL* gop, FT_Face face, UINTN x, UINTN y, CHAR16* text
 );
 
 static void init(
-	EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable,
-	EFI_GRAPHICS_OUTPUT_PROTOCOL** gop,
-	FT_Library* library,
-	FT_Byte** buffer, FT_Face* face
+    EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable,
+    EFI_GRAPHICS_OUTPUT_PROTOCOL** gop,
+    FT_Library* library,
+    FT_Byte** buffer, FT_Face* face
 );
 
 static void load_file(CHAR16* path, UINTN* buffer_size, FT_Byte** buffer);
 
 static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(
-	unsigned char* buffer, UINTN width, int pitch, UINTN height
+    unsigned char* buffer, UINTN width, int pitch, UINTN height
 );
 
 static void reset_system(EFI_STATUS status)
 {
-	EFI_STATUS local_status = EFI_SUCCESS;
+    EFI_STATUS local_status = EFI_SUCCESS;
 
-	do{
-		EFI_INPUT_KEY key;
-		local_status = ST->ConIn->ReadKeyStroke(ST->ConIn, &key);
-	} while (EFI_SUCCESS != local_status);
+    do{
+        EFI_INPUT_KEY key;
+        local_status = ST->ConIn->ReadKeyStroke(ST->ConIn, &key);
+    } while (EFI_SUCCESS != local_status);
 
-	RT->ResetSystem(EfiResetCold, status, 0, NULL);
+    RT->ResetSystem(EfiResetCold, status, 0, NULL);
 }
 
 static void error_print(CHAR16* msg)
 {
-	Print(msg);
-	reset_system(EFI_SUCCESS);
+    Print(msg);
+    reset_system(EFI_SUCCESS);
 }
 
 EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
-	EFI_GRAPHICS_OUTPUT_PROTOCOL* gop = NULL;
-	FT_Library library = NULL;
-	FT_Byte* buffer = NULL;
-	FT_Face face = NULL;
+    EFI_GRAPHICS_OUTPUT_PROTOCOL* gop = NULL;
+    FT_Library library = NULL;
+    FT_Byte* buffer = NULL;
+    FT_Face face = NULL;
 
-	init(ImageHandle, SystemTable, &gop, &library, &buffer, &face);
+    init(ImageHandle, SystemTable, &gop, &library, &buffer, &face);
 
-	if (FT_Set_Pixel_Sizes(face, 32, 64)){
+    if (FT_Set_Pixel_Sizes(face, 32, 64)){
 
-		error_print(L"FT_Set_Pixel_Sizes Failed.\n");
-	}
+        error_print(L"FT_Set_Pixel_Sizes() failed.\n");
+    }
 
-	Print(L"When you press any key, the system will reboot.\n");
+    Print(L"When you press any key, the system will reboot.\n");
 
-	CHAR16* text[] = {
-		L"Kanji",
-		L"漢字",
-		L"中国文字",
-		L"中國文字",
-		L"한자",
-		NULL,
-	};
+    CHAR16* text[] = {
+        L"Kanji",
+        L"漢字",
+        L"中国文字",
+        L"中國文字",
+        L"한자",
+        NULL,
+    };
 
-	UINTN x = 0;
-	UINTN y = 64;
+    UINTN x = 0;
+    UINTN y = 64;
 
-	for (int i = 0; text[i]; ++i){
+    for (int i = 0; text[i]; ++i){
 
-		draw_text(gop, face, x, y, text[i]);
+        draw_text(gop, face, x, y, text[i]);
 
-		y += 64;
-	}
+        y += 64;
+    }
 
-	if (face){
+    if (face){
 
-		FT_Done_Face(face);
-		face = NULL;
-	}
+        FT_Done_Face(face);
+        face = NULL;
+    }
 
-	if (library){
+    if (library){
 
-		FT_Done_FreeType(library);
-		library = NULL;
-	}
+        FT_Done_FreeType(library);
+        library = NULL;
+    }
 
-	free(buffer);
-	buffer = NULL;
+    free(buffer);
+    buffer = NULL;
 
-	reset_system(EFI_SUCCESS);
+    reset_system(EFI_SUCCESS);
 
-	return EFI_SUCCESS;
+    return EFI_SUCCESS;
 }
 
 static void draw_text(
-	EFI_GRAPHICS_OUTPUT_PROTOCOL* gop, FT_Face face, UINTN x, UINTN y, CHAR16* text)
+    EFI_GRAPHICS_OUTPUT_PROTOCOL* gop, FT_Face face, UINTN x, UINTN y, CHAR16* text)
 {
-	int prev_glyph_index = 0;
-	bool has_kerning = FT_HAS_KERNING(face);
+    int prev_glyph_index = 0;
+    bool has_kerning = FT_HAS_KERNING(face);
 
-	for (size_t i = 0; *text; ++i, ++text){
+    for (size_t i = 0; *text; ++i, ++text){
 
-		FT_UInt glyph_index = FT_Get_Char_Index(face, *text);
+        FT_UInt glyph_index = FT_Get_Char_Index(face, *text);
 
-		if (0 == glyph_index){
+        if (0 == glyph_index){
 
-			Print(L"Undefined character code.\n");
-			continue;
-		}
+            Print(L"Undefined character code.\n");
+            continue;
+        }
 
-		if ((0x00 <= *text) && (0xff >= *text)){
+        if ((0x00 <= *text) && (0xff >= *text)){
 
-			(void)FT_Load_Glyph(face, glyph_index, FT_LOAD_NO_BITMAP);
-		}else{
+            (void)FT_Load_Glyph(face, glyph_index, FT_LOAD_NO_BITMAP);
+        }else{
 
-			(void)FT_Load_Glyph(
-				face, glyph_index,
-				FT_LOAD_NO_BITMAP | FT_LOAD_NO_HINTING | FT_LOAD_NO_AUTOHINT
-			);
-		}
+            (void)FT_Load_Glyph(
+                face, glyph_index,
+                FT_LOAD_NO_BITMAP | FT_LOAD_NO_HINTING | FT_LOAD_NO_AUTOHINT
+            );
+        }
 
-		if (FT_Render_Glyph(face->glyph, FT_RENDER_MODE_LCD)){
+        if (FT_Render_Glyph(face->glyph, FT_RENDER_MODE_LCD)){
 
-			Print(L"FT_Render_Glyph Failed.\n");
-			continue;
-		}
+            Print(L"FT_Render_Glyph() failed.\n");
 
-		FT_Bitmap* bitmap = &(face->glyph->bitmap);
+            continue;
+        }
 
-		if ((0 == bitmap->width) || (0 == bitmap->rows)){
+        FT_Bitmap* bitmap = &(face->glyph->bitmap);
 
-			continue;
-		}
+        if ((0 == bitmap->width) || (0 == bitmap->rows)){
 
-		if ((0 != prev_glyph_index) && has_kerning){
+            continue;
+        }
 
-			FT_Vector delta;
+        if ((0 != prev_glyph_index) && has_kerning){
 
-			FT_Get_Kerning(face,
-				prev_glyph_index, glyph_index,
-				ft_kerning_default, &delta
-				);
-			x += (delta.x >> 6);
-		}
+            FT_Vector delta;
 
-		prev_glyph_index = glyph_index;
+            FT_Get_Kerning(face,
+                prev_glyph_index, glyph_index,
+                ft_kerning_default, &delta
+            );
 
-		UINTN width = bitmap->width;
-		UINTN height = bitmap->rows;
+            x += (delta.x >> 6);
+        }
 
-		EFI_GRAPHICS_OUTPUT_BLT_PIXEL* p = conv_bitmap(
-			bitmap->buffer, width, bitmap->pitch, height
-		);
+        prev_glyph_index = glyph_index;
 
-		if (NULL == p){
+        UINTN width = bitmap->width;
+        UINTN height = bitmap->rows;
 
-			error_print(L"conv_bitmap Failed.\n");
-		}
+        EFI_GRAPHICS_OUTPUT_BLT_PIXEL* p = conv_bitmap(
+            bitmap->buffer, width, bitmap->pitch, height
+        );
 
-		int baseline = (face->height + face->descender) *
-			face->size->metrics.y_ppem / face->units_per_EM;
+        if (NULL == p){
 
-		EFI_STATUS status = gop->Blt(
-			gop, p,
-			EfiBltBufferToVideo,
-			0, 0,
-			x + face->glyph->bitmap_left,
-			y + baseline - face->glyph->bitmap_top,
-			width, height,
-			width * sizeof(EFI_GRAPHICS_OUTPUT_BLT_PIXEL)
-		);
+            error_print(L"conv_bitmap() failed.\n");
+        }
 
-		x += (width + 8);
+        int baseline = (face->height + face->descender) *
+            face->size->metrics.y_ppem / face->units_per_EM;
 
-		free(p);
-		p = NULL;
+        EFI_STATUS status = gop->Blt(
+            gop, p,
+            EfiBltBufferToVideo,
+            0, 0,
+            x + face->glyph->bitmap_left,
+            y + baseline - face->glyph->bitmap_top,
+            width, height,
+            width * sizeof(EFI_GRAPHICS_OUTPUT_BLT_PIXEL)
+        );
 
-		if (EFI_ERROR(status)){
+        x += (width + 8);
 
-			error_print(L"Blt Failed.\n");
-		}
-	}
+        free(p);
+        p = NULL;
+
+        if (EFI_ERROR(status)){
+
+            error_print(L"Blt() failed.\n");
+        }
+    }
 }
 
 static void init(
-	EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable,
-	EFI_GRAPHICS_OUTPUT_PROTOCOL** gop,
-	FT_Library* library,
-	FT_Byte** buffer, FT_Face* face)
+    EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable,
+    EFI_GRAPHICS_OUTPUT_PROTOCOL** gop,
+    FT_Library* library,
+    FT_Byte** buffer, FT_Face* face)
 {
-	InitializeLib(ImageHandle, SystemTable);
+    InitializeLib(ImageHandle, SystemTable);
 
-	EFI_STATUS status = BS->LocateProtocol(
-		&GraphicsOutputProtocol,
-		NULL, gop
-	);
+    EFI_STATUS status = BS->LocateProtocol(
+        &GraphicsOutputProtocol,
+        NULL, gop
+    );
 
-	if (EFI_ERROR(status)){
+    if (EFI_ERROR(status)){
 
-		error_print(L"LocateProtocol GOP Failed.\n");
-	}
+        error_print(L"LocateProtocol() GOP failed.\n");
+    }
 
-	int mode_num = 0;
-	int set_mode_num = 0;
-	bool valid_query_mode = false;
-	EFI_GRAPHICS_OUTPUT_MODE_INFORMATION* mode_info;
-	UINTN size = 0;
-	UINT32 HorizontalResolution = 0;
+    int mode_num = 0;
+    int set_mode_num = 0;
+    bool valid_query_mode = false;
+    EFI_GRAPHICS_OUTPUT_MODE_INFORMATION* mode_info;
+    UINTN size = 0;
+    UINT32 HorizontalResolution = 0;
 
-	for (; (status = (*gop)->QueryMode(*gop, mode_num, &size, &mode_info)) == EFI_SUCCESS;
-		++mode_num){
+    for (; (status = (*gop)->QueryMode(*gop, mode_num, &size, &mode_info)) == EFI_SUCCESS;
+        ++mode_num){
 
-		if (PixelBlueGreenRedReserved8BitPerColor != mode_info->PixelFormat){
+        if (PixelBlueGreenRedReserved8BitPerColor != mode_info->PixelFormat){
 
-			continue;
-		}
+            continue;
+        }
 
-		if (HorizontalResolution < mode_info->HorizontalResolution){
+        if (HorizontalResolution < mode_info->HorizontalResolution){
 
-			HorizontalResolution = mode_info->HorizontalResolution;
+            HorizontalResolution = mode_info->HorizontalResolution;
 
-			set_mode_num = mode_num;
+            set_mode_num = mode_num;
 
-			valid_query_mode = true;
+            valid_query_mode = true;
 
-			if (HorizontalResolution == SCREEN_WIDTH){
+            if (HorizontalResolution == SCREEN_WIDTH){
 
-				break;
-			}
-		}
-	}
+                break;
+            }
+        }
+    }
 
-	if (false == valid_query_mode){
+    if (false == valid_query_mode){
 
-		error_print(L"QueryMode GOP Failed.\n");
-	}
+        error_print(L"QueryMode() GOP failed.\n");
+    }
 
-	status = (*gop)->SetMode(*gop, set_mode_num);
+    status = (*gop)->SetMode(*gop, set_mode_num);
 
-	if (EFI_ERROR(status)){
+    if (EFI_ERROR(status)){
 
-		error_print(L"SetMode GOP Failed.\n");
-	}
+        error_print(L"SetMode() GOP failed.\n");
+    }
 
-	if (FT_Init_FreeType(library)){
+    if (FT_Init_FreeType(library)){
 
-		error_print(L"FT_Init_FreeType Failed.\n");
-	}
+        error_print(L"FT_Init_FreeType() failed.\n");
+    }
 
-	CHAR16* path = L"\\efi\\boot\\fonts\\SourceHanSans-Normal.ttc";
+    CHAR16* path = L"\\efi\\boot\\fonts\\SourceHanSans-Normal.ttc";
 #if 1
-	FT_Long buffer_size = 0;
+    FT_Long buffer_size = 0;
 
-	load_file(path, (UINTN*)&buffer_size, buffer);
+    load_file(path, (UINTN*)&buffer_size, buffer);
 
-	FT_Error err = FT_New_Memory_Face(*library, (const FT_Byte*)*buffer, buffer_size, 0, face);
+    FT_Error err = FT_New_Memory_Face(*library, (const FT_Byte*)*buffer, buffer_size, 0, face);
 #else
-	FT_Error err = FT_New_Face(library, path, 0, face);
-
-	Print(L"FT_New_Face.\n");
+    FT_Error err = FT_New_Face(library, path, 0, face);
 #endif
-	if (err){
+    if (err){
 
-		if (FT_Err_Unknown_File_Format == err){
+        if (FT_Err_Unknown_File_Format == err){
 
-			error_print(L"BAD FONT FILE.\n");
-		}else{
+            error_print(L"Bad font file.\n");
+        }else{
 
-			error_print(L"FT_New_Memory_Face or FT_New_Face Failed.\n");
-		}
-	}
+#if 1
+            error_print(L"FT_New_Memory_Face() failed.\n");
+#else
+            error_print(L"FT_New_Face() failed.\n");
+#endif
+        }
+    }
 }
 
 static void load_file(CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
 {
-	EFI_FILE_IO_INTERFACE* efi_simple_file_system = NULL;
-	EFI_FILE* efi_file_root = NULL;
-	EFI_FILE* efi_file = NULL;
+    EFI_FILE_IO_INTERFACE* efi_simple_file_system = NULL;
+    EFI_FILE* efi_file_root = NULL;
+    EFI_FILE* efi_file = NULL;
 
-	EFI_STATUS status = BS->LocateProtocol(
-		&FileSystemProtocol,
-		NULL,
-		&efi_simple_file_system
-	);
+    EFI_STATUS status = BS->LocateProtocol(
+        &FileSystemProtocol,
+        NULL,
+        &efi_simple_file_system
+    );
 
-	if (EFI_ERROR(status)){
+    if (EFI_ERROR(status)){
 
-		error_print(L"LocateProtocol FileSystemProtocol Failed.\n");
-	}
+        error_print(L"LocateProtocol() FileSystemProtocol failed.\n");
+    }
 
-	status = efi_simple_file_system->OpenVolume(
-		efi_simple_file_system, &efi_file_root
-	);
+    status = efi_simple_file_system->OpenVolume(
+        efi_simple_file_system, &efi_file_root
+    );
 
-	if (EFI_ERROR(status)){
+    if (EFI_ERROR(status)){
 
-		error_print(L"OpenVolume Failed.\n");
-	}
+        error_print(L"OpenVolume() failed.\n");
+    }
 
-	status = efi_file_root->Open(
-		efi_file_root, &efi_file, path,
-		EFI_FILE_MODE_READ, EFI_FILE_ARCHIVE
-		);
+    status = efi_file_root->Open(
+        efi_file_root, &efi_file, path,
+        EFI_FILE_MODE_READ, 0
+    );
 
-	if (EFI_ERROR(status)){
+    if (EFI_ERROR(status)){
 
-		error_print(L"Open Failed.\n");
-	}
+        error_print(L"Open() failed.\n");
+    }
 
-	status = efi_file->SetPosition(efi_file, 0xFFFFFFFFFFFFFFFF);
+    EFI_FILE_INFO info;
+    UINTN size = sizeof(info);
 
-	if (EFI_ERROR(status)){
+    ZeroMem(&info, sizeof(info));
 
-		error_print(L"SetPosition END Failed.\n");
-	}
+    status = efi_file->GetInfo(efi_file, &GenericFileInfo, &size, &info);
 
-	UINT64 pos = 0;
+    if (EFI_ERROR(status)) {
 
-	status = efi_file->GetPosition(efi_file, &pos);
+        error_print(L"GetInfo() failed.\n");
+    }
 
-	if (EFI_ERROR(status)){
+    *buffer_size = info.FileSize;
 
-		error_print(L"GetPosition Failed.\n");
-	}
+    FT_Byte* p = (FT_Byte*)malloc(*buffer_size);
 
-	*buffer_size = pos;
+    if (NULL == p){
 
-	status = efi_file->SetPosition(efi_file, 0);
+        error_print(L"malloc() failed.\n");
+    }
 
-	if (EFI_ERROR(status)){
+    *buffer = p;
 
-		error_print(L"SetPosition SET Failed.\n");
-	}
+    status = efi_file->Read(efi_file, buffer_size, *buffer);
 
-	FT_Byte* p = (FT_Byte*)malloc(*buffer_size);
+    if (EFI_ERROR(status)){
 
-	if (NULL == p){
+        error_print(L"Read() failed.\n");
+    }
 
-		error_print(L"malloc Failed.\n");
-	}
+    status = efi_file->Close(efi_file);
 
-	*buffer = p;
+    if (EFI_ERROR(status)){
 
-	status = efi_file->Read(efi_file, buffer_size, *buffer);
-
-	if (EFI_ERROR(status)){
-
-		error_print(L"Read Failed.\n");
-	}
-
-	status = efi_file->Close(efi_file);
-
-	if (EFI_ERROR(status)){
-
-		error_print(L"Close Failed.\n");
-	}
+        error_print(L"Close() failed.\n");
+    }
 }
 
 static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(unsigned char* buffer, UINTN width, int pitch, UINTN height)
 {
-	size_t num = width * height;
+    size_t num = width * height;
 
-	EFI_GRAPHICS_OUTPUT_BLT_PIXEL* p = calloc(num, sizeof(EFI_GRAPHICS_OUTPUT_BLT_PIXEL));
+    EFI_GRAPHICS_OUTPUT_BLT_PIXEL* p = calloc(num, sizeof(EFI_GRAPHICS_OUTPUT_BLT_PIXEL));
 
-	if (NULL == p){
+    if (NULL == p){
 
-		return NULL;
-	}
+        return NULL;
+    }
 
-	int k = 0;
+    int k = 0;
 
-	for (int j = 0; height > j; ++j){
+    for (int j = 0; height > j; ++j){
 
-		unsigned char* q = NULL;
+        unsigned char* q = NULL;
 
-		if (pitch > 0){
+        if (pitch > 0){
 
-			q = buffer + (pitch * j);
-		}else{
+            q = buffer + (pitch * j);
+        }else{
 
-			q = buffer + (((-pitch) * height) - (pitch * j));
-		}
+            q = buffer + (((-pitch) * height) - (pitch * j));
+        }
 
-		for (int i = 0; width > i; ++i){
+        for (int i = 0; width > i; ++i){
 
-			p[k].Red = q[i];
-			p[k].Green = q[i + 1];
-			p[k].Blue = q[i + 2];
-//			p[k].Reserved;
-			++k;
-		}
-	}
+            p[k].Red = q[i];
+            p[k].Green = q[i + 1];
+            p[k].Blue = q[i + 2];
+//            p[k].Reserved;
+            ++k;
+        }
+    }
 
-	return p;
+    return p;
 }
 
 #else
@@ -418,186 +413,193 @@ static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(unsigned char* buffer, UINTN w
 
 static void get_char(void)
 {
-	char buf[4] = { 0 };
-	size_t len = 3;
-	(void)read_consle(buf, &len);
+    char buf[4] = { 0 };
+    size_t len = 3;
+    (void)read_consle(buf, &len);
 }
 
 static void error_print(char* msg)
 {
-	size_t len = strlen(msg);
-	(void)write_consle(msg, &len);
+    size_t len = strlen(msg);
+    (void)write_consle(msg, &len);
 
-	get_char();
+    get_char();
 
-	(void)free_console();
-	exit_process(EXIT_FAILURE);
+    (void)free_console();
+    exit_process(EXIT_FAILURE);
 }
 
 static void Print(char* msg)
 {
-	size_t len = strlen(msg);
-	(void)write_consle(msg, &len);
+    size_t len = strlen(msg);
+    (void)write_consle(msg, &len);
 }
 
 static void draw_text(FT_Face face);
 
 int __stdcall WinMain(void)
 {
-	(void)alloc_console();
+    (void)alloc_console();
 
-	FT_Library library = NULL;
+    FT_Library library = NULL;
 
-	if (FT_Init_FreeType(&library)){
+    if (FT_Init_FreeType(&library)){
 
-		error_print("FT_Init_FreeType Failed.\n");
-	}
+        error_print("FT_Init_FreeType() failed.\n");
+    }
 
-	const char* path = "SourceHanSans-Normal.ttc";
+    const char* path = "SourceHanSans-Normal.ttc";
 
 #if 0
-	FT_Error err = FT_New_Face(library, path, 0, &face);
+    FT_Error err = FT_New_Face(library, path, 0, &face);
 #else
-	FILE* fp = fopen(path, "rb");
-	long l = 0;
-	char* buf = NULL;
-	if (fp){
+    FILE* fp = fopen(path, "rb");
+    long l = 0;
+    char* buf = NULL;
+    if (fp){
 
-		fseek(fp, 0, SEEK_END);
-		l = ftell(fp);
-		fseek(fp, 0, SEEK_SET);
-		buf = (char*)malloc(l);
-		if (buf){
+        fseek(fp, 0, SEEK_END);
+        l = ftell(fp);
+        fseek(fp, 0, SEEK_SET);
+        buf = (char*)malloc(l);
+        if (buf){
 
-			fread(buf, 1, l, fp);
+            fread(buf, 1, l, fp);
 
-			fclose(fp);
-		}
-	}
-	FT_Face face = NULL;
-	FT_Error err = FT_New_Memory_Face(library, (const FT_Byte*)buf, (FT_Long)l, 0, &face);
+            fclose(fp);
+        }
+    }
+    FT_Face face = NULL;
+    FT_Error err = FT_New_Memory_Face(library, (const FT_Byte*)buf, (FT_Long)l, 0, &face);
 #endif
 
-	if (err){
+    if (err){
 
-		if (FT_Err_Unknown_File_Format == err){
+        if (FT_Err_Unknown_File_Format == err){
 
-			error_print("BAD FONT FILE.\n");
-		}
-		else{
+            error_print("Bad font file.\n");
+        }
+        else{
 
-			error_print("FT_New_Memory_Face or FT_New_Face Failed.\n");
-		}
-	}
+#if 1
+            error_print("FT_New_Memory_Face() failed.\n");
+#else
+            error_print("FT_New_Face() failed.\n");
+#endif
+        }
+    }
 
-	if (FT_Set_Pixel_Sizes(face, 32, 64)){
+    if (FT_Set_Pixel_Sizes(face, 32, 64)){
 
-		error_print("FT_Set_Pixel_Sizes Failed.\n");
-	}
+        error_print("FT_Set_Pixel_Sizes() failed.\n");
+    }
 
-	draw_text(face);
+    draw_text(face);
 
-	if (!init_instance(L"font_test")){
+    if (!init_instance(L"font_test")){
 
-		error_print("init_instance Failed.\n");
-	}
+        error_print("init_instance() failed.\n");
+    }
 
-	int ret = message_loop();
+    int ret = message_loop();
 
-	if (face){
+    if (face){
 
-		FT_Done_Face(face);
-		face = NULL;
-	}
+        FT_Done_Face(face);
+        face = NULL;
+    }
 
-	if (library){
+    if (library){
 
-		FT_Done_FreeType(library);
-		library = NULL;
-	}
+        FT_Done_FreeType(library);
+        library = NULL;
+    }
 
-	get_char();
-	(void)free_console();
+    get_char();
+    (void)free_console();
 
-	return ret;
+    return ret;
 }
 
 static void draw_text(FT_Face face)
 {
-	unsigned short* text = L"EFI,ひらがな,カタカナ,漢字";
-	int x = 0;
-	int y = 64;
+    unsigned short* text = L"EFI,ひらがな,カタカナ,漢字";
+    int x = 0;
+    int y = 64;
 
-	int prev_glyph_index = 0;
-	bool has_kerning = FT_HAS_KERNING(face);
+    int prev_glyph_index = 0;
+    bool has_kerning = FT_HAS_KERNING(face);
 
-	for (size_t i = 0; *text; ++i, ++text){
+    for (size_t i = 0; *text; ++i, ++text){
 
-		FT_UInt glyph_index = FT_Get_Char_Index(face, *text);
+        FT_UInt glyph_index = FT_Get_Char_Index(face, *text);
 
-		if (0 == glyph_index){
+        if (0 == glyph_index){
 
-			Print("Undefined character code.\n");
-			continue;
-		}
+            Print("Undefined character code.\n");
 
-		if ((0x00 <= *text) && (0xff >= *text)){
+            continue;
+        }
 
-			(void)FT_Load_Glyph(face, glyph_index, FT_LOAD_NO_BITMAP);
-		}else{
+        if ((0x00 <= *text) && (0xff >= *text)){
 
-			(void)FT_Load_Glyph(
-				face, glyph_index,
-				FT_LOAD_NO_BITMAP | FT_LOAD_NO_HINTING | FT_LOAD_NO_AUTOHINT
-			);
-		}
+            (void)FT_Load_Glyph(face, glyph_index, FT_LOAD_NO_BITMAP);
+        }else{
 
-		if (FT_Render_Glyph(face->glyph, FT_RENDER_MODE_LCD)){
+            (void)FT_Load_Glyph(
+                face, glyph_index,
+                FT_LOAD_NO_BITMAP | FT_LOAD_NO_HINTING | FT_LOAD_NO_AUTOHINT
+            );
+        }
 
-			Print("FT_Render_Glyph Failed.\n");
-			continue;
-		}
+        if (FT_Render_Glyph(face->glyph, FT_RENDER_MODE_LCD)){
 
-		FT_Bitmap* bitmap = &(face->glyph->bitmap);
+            Print("FT_Render_Glyph() failed.\n");
 
-		if ((0 == bitmap->width) || (0 == bitmap->rows)){
+            continue;
+        }
 
-			if (0 == bitmap->width) Print("bitmap->width = 0\n");
-			if (0 == bitmap->rows) Print("bitmap->rows = 0\n");
+        FT_Bitmap* bitmap = &(face->glyph->bitmap);
 
-			continue;
-		}
+        if ((0 == bitmap->width) || (0 == bitmap->rows)){
 
-		char tmp[200];
-		sprintf(tmp, "width = %d, rows = %d\n", bitmap->width, bitmap->rows);
-		Print(tmp);
+            if (0 == bitmap->width) Print("bitmap->width = 0\n");
+            if (0 == bitmap->rows) Print("bitmap->rows = 0\n");
 
-		if ((0 != prev_glyph_index) && has_kerning){
+            continue;
+        }
 
-			FT_Vector delta;
+        char tmp[200];
+        sprintf(tmp, "width = %d, rows = %d\n", bitmap->width, bitmap->rows);
+        Print(tmp);
 
-			FT_Get_Kerning(face,
-				prev_glyph_index, glyph_index,
-				ft_kerning_default, &delta
-			);
-			x += (delta.x >> 6);
-		}
+        if ((0 != prev_glyph_index) && has_kerning){
 
-		prev_glyph_index = glyph_index;
+            FT_Vector delta;
 
-		int baseline = (face->height + face->descender) *
-			face->size->metrics.y_ppem / face->units_per_EM;
+            FT_Get_Kerning(face,
+                prev_glyph_index, glyph_index,
+                ft_kerning_default, &delta
+            );
+            x += (delta.x >> 6);
+        }
 
-		size_t num = bitmap->pitch * bitmap->rows;
+        prev_glyph_index = glyph_index;
 
-		append_data(
-			x + face->glyph->bitmap_left,
-			y + baseline - face->glyph->bitmap_top,
-			bitmap->width, bitmap->rows, num, bitmap->pitch, bitmap->buffer
-		);
+        int baseline = (face->height + face->descender) *
+            face->size->metrics.y_ppem / face->units_per_EM;
 
-		x += (bitmap->width + 8);
-	}
+        size_t num = bitmap->pitch * bitmap->rows;
+
+        append_data(
+            x + face->glyph->bitmap_left,
+            y + baseline - face->glyph->bitmap_top,
+            bitmap->width, bitmap->rows, num, bitmap->pitch, bitmap->buffer
+        );
+
+        x += (bitmap->width + 8);
+    }
 }
 
 #endif
+

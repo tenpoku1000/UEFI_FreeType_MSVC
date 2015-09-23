@@ -323,19 +323,30 @@ static void load_file(CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
         error_print(L"Open() failed.\n");
     }
 
-    EFI_FILE_INFO info;
-    UINTN size = sizeof(info);
-
-    ZeroMem(&info, sizeof(info));
-
-    status = efi_file->GetInfo(efi_file, &GenericFileInfo, &size, &info);
+    status = efi_file->SetPosition(efi_file, 0xFFFFFFFFFFFFFFFF);
 
     if (EFI_ERROR(status)) {
 
-        error_print(L"GetInfo() failed.\n");
+        error_print(L"SetPosition END Failed.\n");
     }
 
-    *buffer_size = info.FileSize;
+    UINT64 pos = 0;
+
+    status = efi_file->GetPosition(efi_file, &pos);
+
+    if (EFI_ERROR(status)) {
+
+        error_print(L"GetPosition Failed.\n");
+    }
+
+    *buffer_size = pos;
+
+    status = efi_file->SetPosition(efi_file, 0);
+
+    if (EFI_ERROR(status)) {
+
+        error_print(L"SetPosition SET Failed.\n");
+    }
 
     FT_Byte* p = (FT_Byte*)malloc(*buffer_size);
 

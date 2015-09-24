@@ -325,7 +325,7 @@ static void load_file(CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
 
     status = efi_file->SetPosition(efi_file, 0xFFFFFFFFFFFFFFFF);
 
-    if (EFI_ERROR(status)) {
+    if (EFI_ERROR(status)){
 
         error_print(L"SetPosition END Failed.\n");
     }
@@ -334,7 +334,7 @@ static void load_file(CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
 
     status = efi_file->GetPosition(efi_file, &pos);
 
-    if (EFI_ERROR(status)) {
+    if (EFI_ERROR(status)){
 
         error_print(L"GetPosition Failed.\n");
     }
@@ -343,7 +343,7 @@ static void load_file(CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
 
     status = efi_file->SetPosition(efi_file, 0);
 
-    if (EFI_ERROR(status)) {
+    if (EFI_ERROR(status)){
 
         error_print(L"SetPosition SET Failed.\n");
     }

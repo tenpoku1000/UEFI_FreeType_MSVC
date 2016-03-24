@@ -44,11 +44,14 @@ Debug ビルドでは bin フォルダ以下に Windows Desktop アプリケー�
 
 ### The FreeType License
 * The FreeType Project http://www.freetype.org/
+
 ### MIT License
 * musl libc http://www.musl-libc.org/
+
 ### BSD License
 * gnu-efi http://sourceforge.net/projects/gnu-efi/
 * UDK2014 http://www.tianocore.org/udk2014/
+
 ### Apache License 2.0(Source Han Sans v1.001 or earlier)
 * adobe-fonts/source-han-sans https://github.com/adobe-fonts/source-han-sans
 

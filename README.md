@@ -7,7 +7,7 @@ UEFI アプリケーションで、英日中韓台のアウトライン・フォ
 ## 開発環境
 
 * Visual Studio Community 2015 + Windows SDK for Windows 10
-https://msdn.microsoft.com/ja-jp/windows/hardware/dn913721(v=vs.8.5).aspx
+https://msdn.microsoft.com/ja-jp/windows/hardware/hh852365.aspx
 * 64 ビット版 Windows 10
 * 64 ビット UEFI 対応 PC
 * USB メモリ
@@ -42,10 +42,14 @@ Debug ビルドでは bin フォルダ以下に Windows Desktop アプリケー�
 
 本ソフトウェアは、以下の外部プロジェクトの成果物を利用しています。感謝いたします。
 
+### The FreeType License
 * The FreeType Project http://www.freetype.org/
+### MIT License
 * musl libc http://www.musl-libc.org/
+### BSD License
 * gnu-efi http://sourceforge.net/projects/gnu-efi/
 * UDK2014 http://www.tianocore.org/udk2014/
+### Apache License 2.0(Source Han Sans v1.001 or earlier)
 * adobe-fonts/source-han-sans https://github.com/adobe-fonts/source-han-sans
 
 ## ライセンス

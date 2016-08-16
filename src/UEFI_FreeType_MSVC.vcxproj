@@ -74,6 +74,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
+      <DisableSpecificWarnings>4091</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

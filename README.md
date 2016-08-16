@@ -33,6 +33,7 @@ PC の機種によっては、Boot 順序設定変更を恒久的な設定変更
 * UEFI_FreeType_MSVC.sln をダブルクリックします。
 * Visual Studio のセキュリティ警告を回避してプロジェクトを開きます。  
 ![warning](https://raw.githubusercontent.com/tenpoku1000/UEFI_FreeType_MSVC/master/images/MSVC.PNG)
+* 「ビルド」→「構成マネージャ」→「アクティブ ソリューション構成」で「Release」を選択
 * Visual Studio の起動後に F7 キーを押下します。
 
 Release ビルドでは efi フォルダ以下に UEFI アプリケーションを生成します。  

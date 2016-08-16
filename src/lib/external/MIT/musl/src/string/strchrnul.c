@@ -10,20 +10,22 @@
 
 char *__strchrnul(const char *s, int c)
 {
-	size_t *w, k;
+    size_t *w, k;
 
-	c = (unsigned char)c;
-	if (!c) return (char *)s + strlen(s);
+    c = (unsigned char)c;
+    if (!c) return (char *)s + strlen(s);
 
-	for (; (uintptr_t)s % ALIGN; s++)
-		if (!*s || *(unsigned char *)s == c) return (char *)s;
-	k = ONES * c;
-	for (w = (void *)s; !HASZERO(*w) && !HASZERO(*w^k); w++);
-	for (s = (void *)w; *s && *(unsigned char *)s != c; s++);
-	return (char *)s;
+    for (; (uintptr_t)s % ALIGN; s++)
+        if (!*s || *(unsigned char *)s == c) return (char *)s;
+    k = ONES * c;
+    for (w = (void *)s; !HASZERO(*w) && !HASZERO(*w^k); w++);
+    for (s = (void *)w; *s && *(unsigned char *)s != c; s++);
+    return (char *)s;
 }
 
-/* @@@ */
+// @@@
+//weak_alias(__strchrnul, strchrnul);
 #ifndef _MSC_VER
 weak_alias(__strchrnul, strchrnul);
 #endif
+// @@@

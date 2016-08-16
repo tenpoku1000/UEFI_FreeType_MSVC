@@ -1,6 +1,7 @@
-
-/* @@@ */
+// @@@
+//#ifndef _PTHREAD_IMPL_H
 #if !defined(_PTHREAD_IMPL_H) && !defined(_MSC_VER)
+// @@@
 #define _PTHREAD_IMPL_H
 
 #include <pthread.h>
@@ -15,43 +16,43 @@
 #define pthread __pthread
 
 struct pthread {
-	struct pthread *self;
-	void **dtv, *unused1, *unused2;
-	uintptr_t sysinfo;
-	uintptr_t canary;
-	pid_t tid, pid;
-	int tsd_used, errno_val;
-	volatile int cancel, canceldisable, cancelasync;
-	int detached;
-	unsigned char *map_base;
-	size_t map_size;
-	void *stack;
-	size_t stack_size;
-	void *start_arg;
-	void *(*start)(void *);
-	void *result;
-	struct __ptcb *cancelbuf;
-	void **tsd;
-	pthread_attr_t attr;
-	volatile int dead;
-	struct {
-		volatile void *volatile head;
-		long off;
-		volatile void *volatile pending;
-	} robust_list;
-	int unblock_cancel;
-	int timer_id;
-	locale_t locale;
-	int killlock[2];
-	int exitlock[2];
-	int startlock[2];
-	unsigned long sigmask[_NSIG/8/sizeof(long)];
-	void *stdio_locks;
+    struct pthread *self;
+    void **dtv, *unused1, *unused2;
+    uintptr_t sysinfo;
+    uintptr_t canary;
+    pid_t tid, pid;
+    int tsd_used, errno_val;
+    volatile int cancel, canceldisable, cancelasync;
+    int detached;
+    unsigned char *map_base;
+    size_t map_size;
+    void *stack;
+    size_t stack_size;
+    void *start_arg;
+    void *(*start)(void *);
+    void *result;
+    struct __ptcb *cancelbuf;
+    void **tsd;
+    pthread_attr_t attr;
+    volatile int dead;
+    struct {
+        volatile void *volatile head;
+        long off;
+        volatile void *volatile pending;
+    } robust_list;
+    int unblock_cancel;
+    int timer_id;
+    locale_t locale;
+    int killlock[2];
+    int exitlock[2];
+    int startlock[2];
+    unsigned long sigmask[_NSIG/8/sizeof(long)];
+    void *stdio_locks;
 };
 
 struct __timer {
-	int timerid;
-	pthread_t thread;
+    int timerid;
+    pthread_t thread;
 };
 
 #define __SU (sizeof(size_t)/sizeof(int))
@@ -94,11 +95,11 @@ struct __timer {
 
 #define SIGALL_SET ((sigset_t *)(const unsigned long long [2]){ -1,-1 })
 #define SIGPT_SET \
-	((sigset_t *)(const unsigned long [_NSIG/8/sizeof(long)]){ \
-	[sizeof(long)==4] = 3UL<<(32*(sizeof(long)>4)) })
+    ((sigset_t *)(const unsigned long [_NSIG/8/sizeof(long)]){ \
+    [sizeof(long)==4] = 3UL<<(32*(sizeof(long)>4)) })
 #define SIGTIMER_SET \
-	((sigset_t *)(const unsigned long [_NSIG/8/sizeof(long)]){ \
-	 0x80000000 })
+    ((sigset_t *)(const unsigned long [_NSIG/8/sizeof(long)]){ \
+     0x80000000 })
 
 pthread_t __pthread_self_init(void);
 
@@ -113,10 +114,10 @@ int __timedwait(volatile int *, int, clockid_t, const struct timespec *, void (*
 void __wait(volatile int *, volatile int *, int, int);
 static inline void __wake(volatile void *addr, int cnt, int priv)
 {
-	if (priv) priv = 128;
-	if (cnt<0) cnt = INT_MAX;
-	__syscall(SYS_futex, addr, FUTEX_WAKE|priv, cnt) != -ENOSYS ||
-	__syscall(SYS_futex, addr, FUTEX_WAKE, cnt);
+    if (priv) priv = 128;
+    if (cnt<0) cnt = INT_MAX;
+    __syscall(SYS_futex, addr, FUTEX_WAKE|priv, cnt) != -ENOSYS ||
+    __syscall(SYS_futex, addr, FUTEX_WAKE, cnt);
 }
 
 void __acquire_ptc();

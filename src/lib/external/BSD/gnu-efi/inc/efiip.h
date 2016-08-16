@@ -251,19 +251,25 @@ typedef struct {
     UINT8 Code;
 } EFI_IP6_ICMP_TYPE;
 
-/* @@@ */
+// @@@
 //-***********************************************************
+// @@@
 // ICMPv6 type definitions for error messages
+// @@@
 //-***********************************************************
+// @@@
 #define ICMP_V6_DEST_UNREACHABLE     0x1
 #define ICMP_V6_PACKET_TOO_BIG       0x2
 #define ICMP_V6_TIME_EXCEEDED        0x3
 #define ICMP_V6_PARAMETER_PROBLEM    0x4
 
-/* @@@ */
+// @@@
 //-***********************************************************
+// @@@
 // ICMPv6 type definition for informational messages
+// @@@
 //-***********************************************************
+// @@@
 #define ICMP_V6_ECHO_REQUEST         0x80
 #define ICMP_V6_ECHO_REPLY           0x81
 #define ICMP_V6_LISTENER_QUERY       0x82
@@ -276,10 +282,13 @@ typedef struct {
 #define ICMP_V6_REDIRECT             0x89
 #define ICMP_V6_LISTENER_REPORT_2    0x8F
 
-/* @@@ */
+// @@@
 //-***********************************************************
+// @@@
 // ICMPv6 code definitions for ICMP_V6_DEST_UNREACHABLE
+// @@@
 //-***********************************************************
+// @@@
 #define ICMP_V6_NO_ROUTE_TO_DEST     0x0
 #define ICMP_V6_COMM_PROHIBITED      0x1
 #define ICMP_V6_BEYOND_SCOPE         0x2
@@ -288,17 +297,21 @@ typedef struct {
 #define ICMP_V6_SOURCE_ADDR_FAILED   0x5
 #define ICMP_V6_ROUTE_REJECTED       0x6
 
-/* @@@ */
+// @@@
 //-***********************************************************
+// @@@
 // ICMPv6 code definitions for ICMP_V6_TIME_EXCEEDED
 //-***********************************************************
 #define ICMP_V6_TIMEOUT_HOP_LIMIT    0x0
 #define ICMP_V6_TIMEOUT_REASSEMBLE   0x1
 
-/* @@@ */
+// @@@
 //-***********************************************************
+// @@@
 // ICMPv6 code definitions for ICMP_V6_PARAMETER_PROBLEM
+// @@@
 //-***********************************************************
+// @@@
 #define ICMP_V6_ERRONEOUS_HEADER     0x0
 #define ICMP_V6_UNRECOGNIZE_NEXT_HDR 0x1
 #define ICMP_V6_UNRECOGNIZE_OPTION   0x2
@@ -417,8 +430,8 @@ typedef struct {
     EFI_EVENT                 Event;
     EFI_STATUS                Status;
     union {
-	EFI_IP6_RECEIVE_DATA  *RxData;
-	EFI_IP6_TRANSMIT_DATA *TxData;
+    EFI_IP6_RECEIVE_DATA  *RxData;
+    EFI_IP6_TRANSMIT_DATA *TxData;
     }                         Packet;
 } EFI_IP6_COMPLETION_TOKEN;
 

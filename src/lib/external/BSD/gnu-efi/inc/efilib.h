@@ -60,10 +60,9 @@ extern EFI_GUID NetworkInterfaceIdentifierProtocol;
 extern EFI_GUID UiProtocol;
 extern EFI_GUID InternalShellProtocol;
 extern EFI_GUID PciIoProtocol;
-/* @@@ */
-#ifdef _MSC_VER
+// @@@
 extern EFI_GUID GraphicsOutputProtocol;
-#endif
+// @@@
 
 extern EFI_GUID EfiGlobalVariable;
 extern EFI_GUID GenericFileInfo;
@@ -559,7 +558,7 @@ EFI_STATUS
 LibSetNVVariable (
     IN CHAR16   *VarName,
     IN EFI_GUID *VarGuid,
-    IN UINTN	 DataSize,
+    IN UINTN     DataSize,
     IN VOID     *Data
     );
 
@@ -567,7 +566,7 @@ EFI_STATUS
 LibSetVariable (
     IN CHAR16   *VarName,
     IN EFI_GUID *VarGuid,
-    IN UINTN	 DataSize,
+    IN UINTN     DataSize,
     IN VOID     *Data
     );
 EFI_STATUS

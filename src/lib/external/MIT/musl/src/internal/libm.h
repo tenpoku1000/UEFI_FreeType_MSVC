@@ -13,7 +13,7 @@
 #ifndef _LIBM_H
 #define _LIBM_H
 
-/* @@@ */
+// @@@
 #ifdef _MSC_VER
 #include <stdint.h>
 #include <float.h>
@@ -23,31 +23,32 @@
 #if LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
 #elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384 && __BYTE_ORDER == __LITTLE_ENDIAN
 union ldshape {
-	long double f;
-	struct {
-		uint64_t m;
-		uint16_t se;
-	} i;
+    long double f;
+    struct {
+        uint64_t m;
+        uint16_t se;
+    } i;
 };
 #elif LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384 && __BYTE_ORDER == __LITTLE_ENDIAN
 union ldshape {
-	long double f;
-	struct {
-		uint64_t lo;
-		uint32_t mid;
-		uint16_t top;
-		uint16_t se;
-	} i;
-	struct {
-		uint64_t lo;
-		uint64_t hi;
-	} i2;
+    long double f;
+    struct {
+        uint64_t lo;
+        uint32_t mid;
+        uint16_t top;
+        uint16_t se;
+    } i;
+    struct {
+        uint64_t lo;
+        uint64_t hi;
+    } i2;
 };
 #else
 #error Unsupported long double representation
 #endif
 
 #else
+// @@@
 #include <stdint.h>
 #include <float.h>
 #include <math.h>
@@ -57,41 +58,41 @@ union ldshape {
 #if LDBL_MANT_DIG == 53 && LDBL_MAX_EXP == 1024
 #elif LDBL_MANT_DIG == 64 && LDBL_MAX_EXP == 16384 && __BYTE_ORDER == __LITTLE_ENDIAN
 union ldshape {
-	long double f;
-	struct {
-		uint64_t m;
-		uint16_t se;
-	} i;
+    long double f;
+    struct {
+        uint64_t m;
+        uint16_t se;
+    } i;
 };
 #elif LDBL_MANT_DIG == 113 && LDBL_MAX_EXP == 16384 && __BYTE_ORDER == __LITTLE_ENDIAN
 union ldshape {
-	long double f;
-	struct {
-		uint64_t lo;
-		uint32_t mid;
-		uint16_t top;
-		uint16_t se;
-	} i;
-	struct {
-		uint64_t lo;
-		uint64_t hi;
-	} i2;
+    long double f;
+    struct {
+        uint64_t lo;
+        uint32_t mid;
+        uint16_t top;
+        uint16_t se;
+    } i;
+    struct {
+        uint64_t lo;
+        uint64_t hi;
+    } i2;
 };
 #else
 #error Unsupported long double representation
 #endif
 
 #define FORCE_EVAL(x) do {                        \
-	if (sizeof(x) == sizeof(float)) {         \
-		volatile float __x;               \
-		__x = (x);                        \
-	} else if (sizeof(x) == sizeof(double)) { \
-		volatile double __x;              \
-		__x = (x);                        \
-	} else {                                  \
-		volatile long double __x;         \
-		__x = (x);                        \
-	}                                         \
+    if (sizeof(x) == sizeof(float)) {         \
+        volatile float __x;               \
+        __x = (x);                        \
+    } else if (sizeof(x) == sizeof(double)) { \
+        volatile double __x;              \
+        __x = (x);                        \
+    } else {                                  \
+        volatile long double __x;         \
+        __x = (x);                        \
+    }                                         \
 } while(0)
 
 /* Get two 32 bit ints from a double.  */
@@ -189,6 +190,7 @@ long double __tanl(long double, long double, int);
 /* polynomial evaluation */
 long double __polevll(long double, const long double *, int);
 long double __p1evll(long double, const long double *, int);
+// @@@
 #endif
-
+// @@@
 #endif

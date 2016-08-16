@@ -39,5 +39,6 @@
 
 /* uefi_call_wrapper() is a macro in efibind.h */
 
-/* @@@ */
+// @@@
 static void dummy(void){}
+// @@@

@@ -29,14 +29,17 @@
 #define INT_MIN  (-1-0x7fffffff)
 #define INT_MAX  0x7fffffff
 #define UINT_MAX 0xffffffffU
-/* @@@ */
+// @@@
 #ifdef _MSC_VER
 #define LONG_MIN INT_MIN
 #define ULONG_MAX UINT_MAX
 #else
+// @@@
 #define LONG_MIN (-LONG_MAX-1)
 #define ULONG_MAX (2UL*LONG_MAX+1)
+// @@@
 #endif
+// @@@
 #define LLONG_MIN (-LLONG_MAX-1)
 #define ULLONG_MAX (2ULL*LLONG_MAX+1)
 

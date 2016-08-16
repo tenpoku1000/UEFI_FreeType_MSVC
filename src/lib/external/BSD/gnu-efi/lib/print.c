@@ -60,8 +60,8 @@ typedef struct {
     } un;
 } POINTER;
 
-#define pw	un.pw
-#define pc	un.pc
+#define pw    un.pw
+#define pc    un.pc
 
 typedef struct _pitem {
 
@@ -95,14 +95,17 @@ typedef struct _pstate {
     UINTN       AttrHighlight;
     UINTN       AttrError;
 
-	/* @@@ */
+// @@@
+//    INTN EFIAPI (*Output)(VOID *context, CHAR16 *str);
+//    INTN EFIAPI (*SetAttr)(VOID *context, UINTN attr);
 #ifdef _MSC_VER
-	INTN (EFIAPI *Output)(VOID *context, CHAR16 *str);
-	INTN (EFIAPI *SetAttr)(VOID *context, UINTN attr);
+    INTN (EFIAPI *Output)(VOID *context, CHAR16 *str);
+    INTN (EFIAPI *SetAttr)(VOID *context, UINTN attr);
 #else
-	INTN EFIAPI (*Output)(VOID *context, CHAR16 *str);
-	INTN EFIAPI (*SetAttr)(VOID *context, UINTN attr);
+    INTN EFIAPI (*Output)(VOID *context, CHAR16 *str);
+    INTN EFIAPI (*SetAttr)(VOID *context, UINTN attr);
 #endif
+// @@@
     VOID        *Context;    
 
     // Current item being formatted
@@ -241,12 +244,14 @@ Returns:
     if (DbgOut) {
         ps.Attr = DbgOut->Mode->Attribute;
         ps.Context = DbgOut;
-		/* @@@ */
+// @@@
+//        ps.SetAttr = (INTN EFIAPI(*)(VOID *, UINTN))  DbgOut->SetAttribute;
 #ifdef _MSC_VER
-		ps.SetAttr = (INTN (EFIAPI*)(VOID *, UINTN))  DbgOut->SetAttribute;
+        ps.SetAttr = (INTN (EFIAPI*)(VOID *, UINTN))  DbgOut->SetAttribute;
 #else
-		ps.SetAttr = (INTN EFIAPI(*)(VOID *, UINTN))  DbgOut->SetAttribute;
+        ps.SetAttr = (INTN EFIAPI(*)(VOID *, UINTN))  DbgOut->SetAttribute;
 #endif
+// @@@
     }
 
     SavedAttribute = ps.Attr;
@@ -291,9 +296,9 @@ STATIC
 INTN
 IsLocalPrint(void *func)
 {
-	if (func == _DbgOut || func == _SPrint || func == _PoolPrint)
-		return 1;
-	return 0;
+    if (func == _DbgOut || func == _SPrint || func == _PoolPrint)
+        return 1;
+    return 0;
 }
 
 STATIC
@@ -312,10 +317,10 @@ _DbgOut (
 //    }
 
     if (DbgOut) {
-	if (IsLocalPrint(DbgOut->OutputString))
-		DbgOut->OutputString(DbgOut, Buffer);
+    if (IsLocalPrint(DbgOut->OutputString))
+        DbgOut->OutputString(DbgOut, Buffer);
         else
-		uefi_call_wrapper(DbgOut->OutputString, 2, DbgOut, Buffer);
+        uefi_call_wrapper(DbgOut->OutputString, 2, DbgOut, Buffer);
     }
 
     return 0;
@@ -414,12 +419,14 @@ _PoolCatPrint (
     IN CHAR16           *fmt,
     IN va_list          args,
     IN OUT POOL_PRINT   *spc,
-	/* @@@ */
+// @@@
+//    IN INTN EFIAPI(*Output)(VOID *context, CHAR16 *str)
 #ifdef _MSC_VER
-	IN INTN (EFIAPI *Output)(VOID *context, CHAR16 *str)
+    IN INTN (EFIAPI *Output)(VOID *context, CHAR16 *str)
 #else
-	IN INTN EFIAPI(*Output)(VOID *context, CHAR16 *str)
+    IN INTN EFIAPI(*Output)(VOID *context, CHAR16 *str)
 #endif
+// @@@
     )
 // Dispath function for SPrint, PoolPrint, and CatPrint
 {
@@ -797,14 +804,17 @@ _IPrint (
 
     ZeroMem (&ps, sizeof(ps));
     ps.Context = Out;
-	/* @@@ */
+// @@@
+//    ps.Output = (INTN EFIAPI(*)(VOID *, CHAR16 *)) Out->OutputString;
+//    ps.SetAttr = (INTN EFIAPI(*)(VOID *, UINTN))  Out->SetAttribute;
 #ifdef _MSC_VER
-	ps.Output = (INTN (EFIAPI*)(VOID *, CHAR16 *)) Out->OutputString;
-	ps.SetAttr = (INTN (EFIAPI*)(VOID *, UINTN))  Out->SetAttribute;
+    ps.Output = (INTN (EFIAPI*)(VOID *, CHAR16 *)) Out->OutputString;
+    ps.SetAttr = (INTN (EFIAPI*)(VOID *, UINTN))  Out->SetAttribute;
 #else
-	ps.Output = (INTN EFIAPI(*)(VOID *, CHAR16 *)) Out->OutputString;
-	ps.SetAttr = (INTN EFIAPI(*)(VOID *, UINTN))  Out->SetAttribute;
+    ps.Output = (INTN EFIAPI(*)(VOID *, CHAR16 *)) Out->OutputString;
+    ps.SetAttr = (INTN EFIAPI(*)(VOID *, UINTN))  Out->SetAttribute;
 #endif
+// @@@
     ps.Attr = Out->Mode->Attribute;
    
     back = (ps.Attr >> 4) & 0xF;
@@ -872,9 +882,9 @@ PFLUSH (
 {
     *ps->Pos = 0;
     if (IsLocalPrint(ps->Output))
-	ps->Output(ps->Context, ps->Buffer);		
+    ps->Output(ps->Context, ps->Buffer);        
     else
-    	uefi_call_wrapper(ps->Output, 2, ps->Context, ps->Buffer);
+        uefi_call_wrapper(ps->Output, 2, ps->Context, ps->Buffer);
     ps->Pos = ps->Buffer;
 }
 
@@ -889,7 +899,7 @@ PSETATTR (
 
    ps->RestoreAttr = ps->Attr;
    if (ps->SetAttr) {
-	uefi_call_wrapper(ps->SetAttr, 2, ps->Context, Attr);
+    uefi_call_wrapper(ps->SetAttr, 2, ps->Context, Attr);
    }
 
    ps->Attr = Attr;

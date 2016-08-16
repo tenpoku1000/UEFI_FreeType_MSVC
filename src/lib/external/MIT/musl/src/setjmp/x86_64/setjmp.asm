@@ -1,40 +1,41 @@
 
 ; @@@
 
-_TEXT	segment
+_TEXT   segment
 
-		public	setjmp
+        public   setjmp
 
-		align	16
+        align    16
 
-setjmp	proc
+setjmp  proc
 
 ; int setjmp(jmp_buf);
-; BUG: 浮動小数点数レジスタを保存していない
 
 ; jmp_buf に rbx, rbp, r12, r14, r15 レジスタを保存
-	mov qword ptr [rcx], rbx
-	mov qword ptr [rcx + 8 * 1], rsi
-	mov qword ptr [rcx + 8 * 2], rdi
-	mov qword ptr [rcx + 8 * 3], rbp
-	mov qword ptr [rcx + 8 * 4], r12
-	mov qword ptr [rcx + 8 * 5], r13
-	mov qword ptr [rcx + 8 * 6], r14
-	mov qword ptr [rcx + 8 * 7], r15
+    mov qword ptr [rcx], rbx
+    mov qword ptr [rcx + 8 * 1], rsi
+    mov qword ptr [rcx + 8 * 2], rdi
+    mov qword ptr [rcx + 8 * 3], rbp
+    mov qword ptr [rcx + 8 * 4], r12
+    mov qword ptr [rcx + 8 * 5], r13
+    mov qword ptr [rcx + 8 * 6], r14
+    mov qword ptr [rcx + 8 * 7], r15
 
 ; jmp_buf に rsp レジスタを保存(return address 除外)
-	lea rdx, [rsp + 8]
-	mov qword ptr [rcx + 8 * 8], rdx
+    lea rdx, [rsp + 8]
+    mov qword ptr [rcx + 8 * 8], rdx
 
 ; jmp_buf に return address の保存
-	mov rdx, [rsp]
-	mov qword ptr [rcx + 8 * 9], rdx
+    mov rdx, [rsp]
+    mov qword ptr [rcx + 8 * 9], rdx
 
 ; return 0;
-	xor rax, rax
-	ret
+    xor rax, rax
+    ret
 
-setjmp	endp
+setjmp  endp
 
-_TEXT	ends
-		end
+_TEXT   ends
+        end
+
+; @@@

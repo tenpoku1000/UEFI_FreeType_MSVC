@@ -38,9 +38,10 @@ Revision History
 
     // No ANSI C 1999/2000 stdint.h integer width declarations 
 
-	/* @@@ */
-	//	#if defined(_MSC_EXTENSIONS)
-	#if defined(_MSC_VER)
+// @@@
+//    #if defined(_MSC_EXTENSIONS)
+    #if defined(_MSC_VER)
+// @@@
 
         // Use Microsoft C compiler integer width declarations 
 
@@ -183,9 +184,10 @@ typedef uint64_t   UINTN;
 //
 
 #ifndef EFIAPI                  // Forces EFI calling conventions reguardless of compiler options 
-	/* @@@ */
-	//	#if defined(_MSC_EXTENSIONS)
-	#if defined(_MSC_VER)
+// @@@
+//  #ifdef _MSC_EXTENSIONS
+    #if defined(_MSC_VER)
+// @@@
         #define EFIAPI __cdecl  // Force C calling convention for Microsoft C compiler 
     #elif defined(HAVE_USE_MS_ABI)
         // Force amd64/ms calling conventions.
@@ -291,9 +293,10 @@ typedef uint64_t   UINTN;
 #endif
 
 /* for x86_64, EFI_FUNCTION_WRAPPER must be defined */
-/* @@@ */
-//#if defined(HAVE_USE_MS_ABI)
+// @@@
+// #if defined(HAVE_USE_MS_ABI)
 #if defined(HAVE_USE_MS_ABI) || defined(_MSC_VER)
+// @@@
 #define uefi_call_wrapper(func, va_num, ...) func(__VA_ARGS__)
 #else
 /*

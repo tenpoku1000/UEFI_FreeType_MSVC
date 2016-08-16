@@ -77,16 +77,16 @@ INTN GetShellArgcArgv(EFI_HANDLE ImageHandle, CHAR16 **Argv[])
   // Code inspired from EDK2's
   // ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.c (BSD)
   EFI_STATUS Status;
-  /* @@@
-  static const EFI_GUID EfiShellParametersProtocolGuid
-      = EFI_SHELL_PARAMETERS_PROTOCOL_GUID;
-  static const EFI_GUID ShellInterfaceProtocolGuid
-      = SHELL_INTERFACE_PROTOCOL_GUID;
-  */
+// @@@
+//  static const EFI_GUID EfiShellParametersProtocolGuid
+//      = EFI_SHELL_PARAMETERS_PROTOCOL_GUID;
+//  static const EFI_GUID ShellInterfaceProtocolGuid
+//      = SHELL_INTERFACE_PROTOCOL_GUID;
   static EFI_GUID EfiShellParametersProtocolGuid
-	  = EFI_SHELL_PARAMETERS_PROTOCOL_GUID;
+      = EFI_SHELL_PARAMETERS_PROTOCOL_GUID;
   static EFI_GUID ShellInterfaceProtocolGuid
-	  = SHELL_INTERFACE_PROTOCOL_GUID;
+      = SHELL_INTERFACE_PROTOCOL_GUID;
+// @@@
   EFI_SHELL_PARAMETERS_PROTOCOL *EfiShellParametersProtocol = NULL;
   EFI_SHELL_INTERFACE *EfiShellInterfaceProtocol = NULL;
 

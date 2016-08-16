@@ -5,6 +5,16 @@
 #include <stdio.h>
 #include <limits.h>
 
+// @@@
+#ifdef _MSC_VER
+#include <efi.h>
+#include <efilib.h>
+void set_uefi_handle_if(EFI_HANDLE* image_handle, EFI_LOADED_IMAGE* loaded_image);
+EFI_HANDLE get_uefi_image_handle(void);
+EFI_LOADED_IMAGE* get_uefi_loaded_image(void);
+#endif
+// @@@
+
 struct __locale_map;
 
 struct __locale_struct {

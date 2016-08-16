@@ -110,7 +110,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UEFI_FREETYPE_MSVC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\src\lib\win64env;.\lib\external\BSD\gnu-efi\inc;.\lib\external\BSD\gnu-efi\inc\x86_64; .\lib\external\FreeType\freetype\include; .\lib\external\MIT\musl\arch\x86_64;.\lib\external\MIT\musl\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src\lib\win64env;.\lib\external\BSD\gnu-efi\inc;.\lib\external\BSD\gnu-efi\inc\x86_64;.\lib\external\FreeType\freetype\include;.\lib\external\MIT\musl\arch\x86_64;.\lib\external\MIT\musl\include;.\lib\external\MIT\musl\src\internal</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <CompileAsManaged>false</CompileAsManaged>
       <OmitFramePointers>false</OmitFramePointers>
@@ -118,7 +118,7 @@
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <DebugInformationFormat>None</DebugInformationFormat>
-      <DisableSpecificWarnings>4091</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4091;4142</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>EFI Application</SubSystem>
@@ -147,6 +147,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="efi_main.c" />
+    <ClCompile Include="efi_status.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="efi_status.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,20 +3,21 @@
 
 #if !defined(_DEBUG)
 
-#include<efi.h>
-#include<efilib.h>
+#include <efi.h>
+#include <efilib.h>
+#include "efi_status.h"
 
 #include <string.h>
 #include <stdbool.h>
+#include <libc.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
 #define SCREEN_WIDTH 1024
+#define BOOT_PARTITION_FILE_ACCESS 1
 
-static void draw_text(
-    EFI_GRAPHICS_OUTPUT_PROTOCOL* gop, FT_Face face, UINTN x, UINTN y, CHAR16* text
-);
+static CHAR16* path = L"\\EFI\\BOOT\\FONTS\\SourceHanSans-Normal.ttc";
 
 static void init(
     EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable,
@@ -25,42 +26,38 @@ static void init(
     FT_Byte** buffer, FT_Face* face
 );
 
-static void load_file(CHAR16* path, UINTN* buffer_size, FT_Byte** buffer);
+static void read_key(void);
+static void reset_system(EFI_STATUS status);
+static void error_print(CHAR16* msg, EFI_STATUS* status);
+
+static void load_file(
+    EFI_HANDLE ImageHandle, EFI_LOADED_IMAGE* loaded_image, CHAR16* path, UINTN* buffer_size, FT_Byte** buffer
+);
+
+static EFI_STATUS load_file2(
+    EFI_FILE_IO_INTERFACE* efi_simple_file_system, CHAR16* path, UINTN* buffer_size, FT_Byte** buffer
+);
+
+static void draw_text(
+    EFI_GRAPHICS_OUTPUT_PROTOCOL* gop, FT_Face face, UINTN x, UINTN y, CHAR16* text
+);
 
 static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(
     unsigned char* buffer, UINTN width, int pitch, UINTN height
 );
 
-static void reset_system(EFI_STATUS status)
-{
-    EFI_STATUS local_status = EFI_SUCCESS;
-
-    do{
-        EFI_INPUT_KEY key;
-        local_status = ST->ConIn->ReadKeyStroke(ST->ConIn, &key);
-    } while (EFI_SUCCESS != local_status);
-
-    RT->ResetSystem(EfiResetCold, status, 0, NULL);
-}
-
-static void error_print(CHAR16* msg)
-{
-    Print(msg);
-    reset_system(EFI_SUCCESS);
-}
-
-EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
+EFI_STATUS efi_main(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_table)
 {
     EFI_GRAPHICS_OUTPUT_PROTOCOL* gop = NULL;
     FT_Library library = NULL;
     FT_Byte* buffer = NULL;
     FT_Face face = NULL;
 
-    init(ImageHandle, SystemTable, &gop, &library, &buffer, &face);
+    init(image_handle, system_table, &gop, &library, &buffer, &face);
 
     if (FT_Set_Pixel_Sizes(face, 32, 64)){
 
-        error_print(L"FT_Set_Pixel_Sizes() failed.\n");
+        error_print(L"FT_Set_Pixel_Sizes() failed.\n", NULL);
     }
 
     Print(L"When you press any key, the system will reboot.\n");
@@ -100,6 +97,336 @@ EFI_STATUS efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
     buffer = NULL;
 
     reset_system(EFI_SUCCESS);
+
+    return EFI_SUCCESS;
+}
+
+static void init(
+    EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_table,
+    EFI_GRAPHICS_OUTPUT_PROTOCOL** gop,
+    FT_Library* library,
+    FT_Byte** buffer, FT_Face* face)
+{
+    InitializeLib(image_handle, system_table);
+
+    EFI_STATUS status = EFI_SUCCESS;
+
+    if ((NULL == ST->ConIn) || (EFI_SUCCESS != (status = ST->ConIn->Reset(ST->ConIn, 0)))){
+
+        error_print(L"Input device unavailable.\n", ST->ConIn ? &status : NULL);
+    }
+
+    EFI_LOADED_IMAGE* loaded_image = NULL;
+
+    status = BS->OpenProtocol(
+        image_handle, &LoadedImageProtocol, &loaded_image,
+        image_handle, NULL, EFI_OPEN_PROTOCOL_GET_PROTOCOL
+    );
+
+    if (EFI_ERROR(status)){
+
+        error_print(L"OpenProtocol() LoadedImageProtocol failed.\n", &status);
+    }
+
+    set_uefi_handle_if(image_handle, loaded_image);
+
+    UINTN number_gop_handles = 0;
+    EFI_HANDLE* gop_handles = NULL;
+
+    status = BS->LocateHandleBuffer(
+        ByProtocol,
+        &GraphicsOutputProtocol,
+        NULL,
+        &number_gop_handles,
+        &gop_handles
+    );
+
+    if (EFI_ERROR(status)){
+
+        error_print(L"LocateHandleBuffer() GraphicsOutputProtocol failed.\n", &status);
+    }
+
+    status = BS->OpenProtocol(
+        gop_handles[0], &GraphicsOutputProtocol, gop,
+        image_handle, NULL, EFI_OPEN_PROTOCOL_GET_PROTOCOL
+    );
+
+    if (EFI_ERROR(status)){
+
+        error_print(L"OpenProtocol() GraphicsOutputProtocol failed.\n", &status);
+    }
+
+    FreePool(gop_handles);
+    gop_handles = NULL;
+
+    int mode_num = 0;
+    int set_mode_num = 0;
+    bool valid_query_mode = false;
+    EFI_GRAPHICS_OUTPUT_MODE_INFORMATION* mode_info;
+    UINTN size = 0;
+    UINT32 HorizontalResolution = 0;
+
+    for (; (status = (*gop)->QueryMode(*gop, mode_num, &size, &mode_info)) == EFI_SUCCESS;
+        ++mode_num){
+
+        if (PixelBlueGreenRedReserved8BitPerColor != mode_info->PixelFormat){
+
+            continue;
+        }
+
+        if (HorizontalResolution < mode_info->HorizontalResolution){
+
+            HorizontalResolution = mode_info->HorizontalResolution;
+
+            set_mode_num = mode_num;
+
+            valid_query_mode = true;
+
+            if (HorizontalResolution == SCREEN_WIDTH){
+
+                break;
+            }
+        }
+    }
+
+    if (false == valid_query_mode){
+
+        error_print(L"QueryMode() GOP failed.\n", NULL);
+    }
+
+    status = (*gop)->SetMode(*gop, set_mode_num);
+
+    if (EFI_ERROR(status)){
+
+        error_print(L"SetMode() GOP failed.\n", &status);
+    }
+
+    if (FT_Init_FreeType(library)){
+
+        error_print(L"FT_Init_FreeType() failed.\n", NULL);
+    }
+
+    FT_Long buffer_size = 0;
+
+    load_file(image_handle, loaded_image, path, (UINTN*)&buffer_size, buffer);
+
+    FT_Error err = FT_New_Memory_Face(*library, (const FT_Byte*)*buffer, buffer_size, 0, face);
+
+    if (err){
+
+        if (FT_Err_Unknown_File_Format == err){
+
+            error_print(L"Bad font file.\n", NULL);
+        }else{
+
+            error_print(L"FT_New_Memory_Face() failed.\n", NULL);
+        }
+    }
+}
+
+static void read_key(void)
+{
+    if (ST->ConIn){
+
+        EFI_STATUS local_status = EFI_SUCCESS;
+
+        do{
+            EFI_INPUT_KEY key;
+
+            local_status = ST->ConIn->ReadKeyStroke(ST->ConIn, &key);
+
+        } while (EFI_SUCCESS != local_status);
+    }
+}
+
+static void reset_system(EFI_STATUS status)
+{
+    read_key();
+
+    RT->ResetSystem(EfiResetCold, status, 0, NULL);
+}
+
+static void error_print(CHAR16* msg, EFI_STATUS* status)
+{
+    Print(msg);
+
+    if (status){
+
+        Print(L"EFI_STATUS = %d, %s\n", *status, print_status_msg(*status));
+    }
+
+    reset_system(EFI_SUCCESS);
+}
+
+static void load_file(
+    EFI_HANDLE ImageHandle, EFI_LOADED_IMAGE* loaded_image, CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
+{
+#if BOOT_PARTITION_FILE_ACCESS
+    EFI_FILE_IO_INTERFACE* efi_simple_file_system = NULL;
+
+    EFI_STATUS status = BS->OpenProtocol(
+        loaded_image->DeviceHandle,
+        &FileSystemProtocol,
+        &efi_simple_file_system,
+        ImageHandle,
+        NULL,
+        EFI_OPEN_PROTOCOL_GET_PROTOCOL
+    );
+
+    if (EFI_ERROR(status)){
+
+        error_print(L"OpenProtocol() FileSystemProtocol failed.\n", &status);
+    }
+
+    status = load_file2(efi_simple_file_system, path, buffer_size, buffer);
+
+    if (EFI_ERROR(status)){
+
+        error_print(L"load_file2() failed.\n", &status);
+    }
+#else
+    UINTN number_file_system_handles = 0;
+    EFI_HANDLE* file_system_handles = NULL;
+
+    EFI_STATUS status = BS->LocateHandleBuffer(
+        ByProtocol,
+        &FileSystemProtocol,
+        NULL,
+        &number_file_system_handles,
+        &file_system_handles
+    );
+
+    if (EFI_ERROR(status)){
+
+        error_print(L"LocateHandleBuffer() FileSystemProtocol failed.\n", &status);
+    }
+
+    for (UINTN i = 0; i < number_file_system_handles; ++i){
+
+        EFI_FILE_IO_INTERFACE* efi_simple_file_system = NULL;
+
+        EFI_STATUS status = BS->OpenProtocol(
+            file_system_handles[i],
+            &FileSystemProtocol,
+            &efi_simple_file_system,
+            ImageHandle,
+            NULL,
+            EFI_OPEN_PROTOCOL_GET_PROTOCOL
+        );
+
+        if (EFI_ERROR(status)) {
+
+            error_print(L"OpenProtocol() FileSystemProtocol failed.\n", &status);
+        }
+
+        status = load_file2(efi_simple_file_system, path, buffer_size, buffer);
+
+        if (EFI_SUCCESS == status){
+
+            FreePool(file_system_handles);
+            file_system_handles = NULL;
+
+            return;
+        }
+    }
+
+    FreePool(file_system_handles);
+    file_system_handles = NULL;
+
+    error_print(L"File not found.\n", NULL);
+#endif
+}
+
+static EFI_STATUS load_file2(
+    EFI_FILE_IO_INTERFACE* efi_simple_file_system, CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
+{
+    EFI_FILE* efi_file_root = NULL;
+    EFI_FILE* efi_file = NULL;
+
+    EFI_STATUS status = efi_simple_file_system->OpenVolume(
+        efi_simple_file_system, &efi_file_root
+    );
+
+    if (EFI_ERROR(status)){
+
+        return status;
+    }
+
+    status = efi_file_root->Open(
+        efi_file_root, &efi_file, path,
+        EFI_FILE_MODE_READ, 0
+    );
+
+    if (EFI_ERROR(status)){
+
+        return status;
+    }
+
+    UINTN info_size = 0;
+    EFI_FILE_INFO* info = NULL;
+
+    status = efi_file->GetInfo(efi_file, &GenericFileInfo, &info_size, info);
+
+    if (EFI_BUFFER_TOO_SMALL != status){
+        
+        if (EFI_ERROR(status)){
+
+            return status;
+        }
+    }
+
+    info = (EFI_FILE_INFO*)AllocatePool(info_size);
+
+    if (NULL == info){
+
+        error_print(L"AllocatePool() failed.\n", NULL);
+    }
+
+    status = efi_file->GetInfo(efi_file, &GenericFileInfo, &info_size, info);
+
+    if (EFI_ERROR(status)){
+
+        FreePool(info);
+        info = NULL;
+
+        return status;
+    }
+
+    *buffer_size = info->FileSize;
+
+    FreePool(info);
+    info = NULL;
+
+    FT_Byte* p = (FT_Byte*)malloc(*buffer_size);
+
+    if (NULL == p){
+
+        error_print(L"malloc() failed.\n", NULL);
+    }
+
+    *buffer = p;
+
+    status = efi_file->Read(efi_file, buffer_size, *buffer);
+
+    if (EFI_ERROR(status)){
+
+        free(p);
+        p = NULL;
+        *buffer = NULL;
+
+        return status;
+    }
+
+    status = efi_file->Close(efi_file);
+
+    if (EFI_ERROR(status)){
+
+        free(p);
+        p = NULL;
+        *buffer = NULL;
+
+        return status;
+    }
 
     return EFI_SUCCESS;
 }
@@ -168,7 +495,7 @@ static void draw_text(
 
         if (NULL == p){
 
-            error_print(L"conv_bitmap() failed.\n");
+            error_print(L"conv_bitmap() failed.\n", NULL);
         }
 
         int baseline = (face->height + face->descender) *
@@ -191,184 +518,8 @@ static void draw_text(
 
         if (EFI_ERROR(status)){
 
-            error_print(L"Blt() failed.\n");
+            error_print(L"Blt() failed.\n", NULL);
         }
-    }
-}
-
-static void init(
-    EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable,
-    EFI_GRAPHICS_OUTPUT_PROTOCOL** gop,
-    FT_Library* library,
-    FT_Byte** buffer, FT_Face* face)
-{
-    InitializeLib(ImageHandle, SystemTable);
-
-    EFI_STATUS status = BS->LocateProtocol(
-        &GraphicsOutputProtocol,
-        NULL, gop
-    );
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"LocateProtocol() GOP failed.\n");
-    }
-
-    int mode_num = 0;
-    int set_mode_num = 0;
-    bool valid_query_mode = false;
-    EFI_GRAPHICS_OUTPUT_MODE_INFORMATION* mode_info;
-    UINTN size = 0;
-    UINT32 HorizontalResolution = 0;
-
-    for (; (status = (*gop)->QueryMode(*gop, mode_num, &size, &mode_info)) == EFI_SUCCESS;
-        ++mode_num){
-
-        if (PixelBlueGreenRedReserved8BitPerColor != mode_info->PixelFormat){
-
-            continue;
-        }
-
-        if (HorizontalResolution < mode_info->HorizontalResolution){
-
-            HorizontalResolution = mode_info->HorizontalResolution;
-
-            set_mode_num = mode_num;
-
-            valid_query_mode = true;
-
-            if (HorizontalResolution == SCREEN_WIDTH){
-
-                break;
-            }
-        }
-    }
-
-    if (false == valid_query_mode){
-
-        error_print(L"QueryMode() GOP failed.\n");
-    }
-
-    status = (*gop)->SetMode(*gop, set_mode_num);
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"SetMode() GOP failed.\n");
-    }
-
-    if (FT_Init_FreeType(library)){
-
-        error_print(L"FT_Init_FreeType() failed.\n");
-    }
-
-    CHAR16* path = L"\\efi\\boot\\fonts\\SourceHanSans-Normal.ttc";
-#if 1
-    FT_Long buffer_size = 0;
-
-    load_file(path, (UINTN*)&buffer_size, buffer);
-
-    FT_Error err = FT_New_Memory_Face(*library, (const FT_Byte*)*buffer, buffer_size, 0, face);
-#else
-    FT_Error err = FT_New_Face(library, path, 0, face);
-#endif
-    if (err){
-
-        if (FT_Err_Unknown_File_Format == err){
-
-            error_print(L"Bad font file.\n");
-        }else{
-
-#if 1
-            error_print(L"FT_New_Memory_Face() failed.\n");
-#else
-            error_print(L"FT_New_Face() failed.\n");
-#endif
-        }
-    }
-}
-
-static void load_file(CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
-{
-    EFI_FILE_IO_INTERFACE* efi_simple_file_system = NULL;
-    EFI_FILE* efi_file_root = NULL;
-    EFI_FILE* efi_file = NULL;
-
-    EFI_STATUS status = BS->LocateProtocol(
-        &FileSystemProtocol,
-        NULL,
-        &efi_simple_file_system
-    );
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"LocateProtocol() FileSystemProtocol failed.\n");
-    }
-
-    status = efi_simple_file_system->OpenVolume(
-        efi_simple_file_system, &efi_file_root
-    );
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"OpenVolume() failed.\n");
-    }
-
-    status = efi_file_root->Open(
-        efi_file_root, &efi_file, path,
-        EFI_FILE_MODE_READ, 0
-    );
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"Open() failed.\n");
-    }
-
-    status = efi_file->SetPosition(efi_file, 0xFFFFFFFFFFFFFFFF);
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"SetPosition END Failed.\n");
-    }
-
-    UINT64 pos = 0;
-
-    status = efi_file->GetPosition(efi_file, &pos);
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"GetPosition Failed.\n");
-    }
-
-    *buffer_size = pos;
-
-    status = efi_file->SetPosition(efi_file, 0);
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"SetPosition SET Failed.\n");
-    }
-
-    FT_Byte* p = (FT_Byte*)malloc(*buffer_size);
-
-    if (NULL == p){
-
-        error_print(L"malloc() failed.\n");
-    }
-
-    *buffer = p;
-
-    status = efi_file->Read(efi_file, buffer_size, *buffer);
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"Read() failed.\n");
-    }
-
-    status = efi_file->Close(efi_file);
-
-    if (EFI_ERROR(status)){
-
-        error_print(L"Close() failed.\n");
     }
 }
 
@@ -402,7 +553,7 @@ static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(unsigned char* buffer, UINTN w
             p[k].Red = q[i];
             p[k].Green = q[i + 1];
             p[k].Blue = q[i + 2];
-//            p[k].Reserved;
+//          p[k].Reserved;
             ++k;
         }
     }
@@ -461,9 +612,6 @@ int __stdcall WinMain(void)
 
     const char* path = "SourceHanSans-Normal.ttc";
 
-#if 0
-    FT_Error err = FT_New_Face(library, path, 0, &face);
-#else
     FILE* fp = fopen(path, "rb");
     long l = 0;
     char* buf = NULL;
@@ -482,21 +630,15 @@ int __stdcall WinMain(void)
     }
     FT_Face face = NULL;
     FT_Error err = FT_New_Memory_Face(library, (const FT_Byte*)buf, (FT_Long)l, 0, &face);
-#endif
 
     if (err){
 
         if (FT_Err_Unknown_File_Format == err){
 
             error_print("Bad font file.\n");
-        }
-        else{
+        }else{
 
-#if 1
             error_print("FT_New_Memory_Face() failed.\n");
-#else
-            error_print("FT_New_Face() failed.\n");
-#endif
         }
     }
 

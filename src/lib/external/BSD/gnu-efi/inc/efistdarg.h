@@ -19,14 +19,16 @@ Revision History
 
 --*/
 
-/* @@@ */
+// @@@
 #ifndef _MSC_VER
+// @@@
 typedef __builtin_va_list va_list;
 
-#define va_start(v,l)	__builtin_va_start(v,l)
-#define va_end(v)	__builtin_va_end(v)
-#define va_arg(v,l)	__builtin_va_arg(v,l)
-#define va_copy(d,s)	__builtin_va_copy(d,s)
+#define va_start(v,l)    __builtin_va_start(v,l)
+#define va_end(v)    __builtin_va_end(v)
+#define va_arg(v,l)    __builtin_va_arg(v,l)
+#define va_copy(d,s)    __builtin_va_copy(d,s)
+// @@@
 #else
 /**
 FILE: UDK2014.SP1.Complete.MyWorkSpace\UDK2014.SP1.MyWorkSpace\MyWorkSpace\MdePkg\Include\Base.h
@@ -119,4 +121,5 @@ the present state of Start.
 #define va_copy(Dest, Start)  ((void)((Dest) = (Start)))
 
 #endif
+// @@@
 #endif

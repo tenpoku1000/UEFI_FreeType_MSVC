@@ -22,10 +22,12 @@ Revision History
  * "warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]"
  * we can safely ignore them here.
  */
-/* @@@ */
+/// @@@
+//#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
 #ifndef _MSC_VER
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
 #endif
+// @@@
 
 EFI_STATUS
 LibGetSmbiosSystemGuidAndSerialNumber (

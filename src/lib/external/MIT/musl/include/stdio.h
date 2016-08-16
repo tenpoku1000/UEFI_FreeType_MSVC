@@ -24,10 +24,12 @@ extern "C" {
 #ifdef __cplusplus
 #define NULL 0L
 #else
-/* @@@ */
+// @@@
+//#define NULL ((void*)0)
 #ifndef NULL
 #define NULL ((void*)0)
 #endif
+// @@@
 #endif
 
 #undef EOF
@@ -51,8 +53,8 @@ extern "C" {
 #define L_tmpnam 20
 
 typedef union _G_fpos64_t {
-	char __opaque[16];
-	double __align;
+    char __opaque[16];
+    double __align;
 } fpos_t;
 
 extern FILE *const stdin;

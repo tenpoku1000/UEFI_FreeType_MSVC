@@ -20,7 +20,7 @@
 static CHAR16* path = L"\\EFI\\BOOT\\FONTS\\SourceHanSans-Normal.ttc";
 
 static void init(
-    EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable,
+    EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_table,
     EFI_GRAPHICS_OUTPUT_PROTOCOL** gop,
     FT_Library* library,
     FT_Byte** buffer, FT_Face* face
@@ -31,7 +31,7 @@ static void reset_system(EFI_STATUS status);
 static void error_print(CHAR16* msg, EFI_STATUS* status);
 
 static void load_file(
-    EFI_HANDLE ImageHandle, EFI_LOADED_IMAGE* loaded_image, CHAR16* path, UINTN* buffer_size, FT_Byte** buffer
+    EFI_HANDLE image_handle, EFI_LOADED_IMAGE* loaded_image, CHAR16* path, UINTN* buffer_size, FT_Byte** buffer
 );
 
 static EFI_STATUS load_file2(
@@ -259,7 +259,7 @@ static void error_print(CHAR16* msg, EFI_STATUS* status)
 }
 
 static void load_file(
-    EFI_HANDLE ImageHandle, EFI_LOADED_IMAGE* loaded_image, CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
+    EFI_HANDLE image_handle, EFI_LOADED_IMAGE* loaded_image, CHAR16* path, UINTN* buffer_size, FT_Byte** buffer)
 {
 #if BOOT_PARTITION_FILE_ACCESS
     EFI_FILE_IO_INTERFACE* efi_simple_file_system = NULL;
@@ -268,7 +268,7 @@ static void load_file(
         loaded_image->DeviceHandle,
         &FileSystemProtocol,
         &efi_simple_file_system,
-        ImageHandle,
+        image_handle,
         NULL,
         EFI_OPEN_PROTOCOL_GET_PROTOCOL
     );
@@ -309,7 +309,7 @@ static void load_file(
             file_system_handles[i],
             &FileSystemProtocol,
             &efi_simple_file_system,
-            ImageHandle,
+            image_handle,
             NULL,
             EFI_OPEN_PROTOCOL_GET_PROTOCOL
         );

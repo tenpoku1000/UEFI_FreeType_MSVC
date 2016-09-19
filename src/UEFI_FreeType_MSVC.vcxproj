@@ -120,6 +120,7 @@
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <DebugInformationFormat>None</DebugInformationFormat>
       <DisableSpecificWarnings>4091;4142</DisableSpecificWarnings>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
     </ClCompile>
     <Link>
       <SubSystem>EFI Application</SubSystem>

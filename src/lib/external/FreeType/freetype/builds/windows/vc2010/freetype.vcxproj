@@ -96,6 +96,7 @@
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <AdditionalOptions>/Gs40960 %(AdditionalOptions)</AdditionalOptions>
+      <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;$(UserDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>

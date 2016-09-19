@@ -1,5 +1,15 @@
 
-/* @@@ */
+// @@@
+//#define _Addr long
+//#define _Int64 long
+//#define _Reg long
+//
+//TYPEDEF __builtin_va_list va_list;
+//TYPEDEF __builtin_va_list __isoc_va_list;
+//
+//#ifndef __cplusplus
+//TYPEDEF int wchar_t;
+//#endif
 #ifdef _MSC_VER
 #define _Addr long long int
 #define _Int64 long long int
@@ -50,6 +60,7 @@ typedef int wchar_t;
 
 #endif
 #endif
+// @@@
 
 #if defined(__NEED_wint_t) && !defined(__DEFINED_wint_t)
 typedef unsigned wint_t;

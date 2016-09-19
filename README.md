@@ -4,6 +4,11 @@ UEFI アプリケーションで、英日中韓台のアウトライン・フォ
 
 ![screen shot](https://raw.githubusercontent.com/tenpoku1000/UEFI_FreeType_MSVC/master/images/README.PNG)
 
+以下は、本ソフトウェアのプロジェクト設定やソースコードに関する補足情報のメモです。
+
+Visual Studio で日中韓台文字表示 UEFI アプリ作成のメモ - Qiita
+http://qiita.com/tenpoku1000/items/5190a1054e6d5078d7a6
+
 ## 開発環境
 
 * Visual Studio Community 2015 + Windows SDK for Windows 10

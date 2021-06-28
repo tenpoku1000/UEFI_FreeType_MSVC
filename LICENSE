@@ -1,6 +1,7 @@
+
 The MIT License (MIT)
 
-Copyright (c) 2015 市川 真一
+(c) 市川 真一
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,4 +20,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+The FreeType License
+
+The FreeType Project https://www.freetype.org/
+
+---
+
+MIT License
+
+musl libc http://www.musl-libc.org/
+
+---
+
+BSD License
+
+gnu-efi download | SourceForge.net https://sourceforge.net/projects/gnu-efi/
+UDK2014 Releases · tianocore/tianocore.github.io Wiki  
+https://github.com/tianocore/tianocore.github.io/wiki/UDK2014-Releases
+
+---
+
+Apache License 2.0(Source Han Sans v1.001 or earlier)
+
+adobe-fonts/source-han-sans https://github.com/adobe-fonts/source-han-sans
 

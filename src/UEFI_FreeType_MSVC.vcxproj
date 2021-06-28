@@ -14,20 +14,20 @@
     <ProjectGuid>{2C511A20-E4B0-4E6A-9576-F2293EF61812}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>UEFI_FreeType_MSVC</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -67,7 +67,7 @@
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UEFI_FREETYPE_MSVC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BufferSecurityCheck>false</BufferSecurityCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\src\lib\win64env;.\lib\external\BSD\gnu-efi\inc;.\lib\external\BSD\gnu-efi\inc\x86_64; .\lib\external\FreeType\freetype\include; .\lib\external\MIT\musl\arch\x86_64;.\lib\external\MIT\musl\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src\lib\win64env;.\lib\external\BSD\gnu-efi\inc;.\lib\external\BSD\gnu-efi\inc\x86_64; .\lib\external\FreeType\freetype\include; .\lib\external\FreeType\freetype\include\freetype; .\lib\external\MIT\musl\arch\x86_64;.\lib\external\MIT\musl\include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <CompileAsManaged>false</CompileAsManaged>
       <OmitFramePointers>false</OmitFramePointers>
@@ -88,6 +88,8 @@
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib\debug\</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
+      <StackReserveSize>0x400000</StackReserveSize>
+      <StackCommitSize>0x400000</StackCommitSize>
     </Link>
     <PreBuildEvent>
       <Command>
@@ -134,6 +136,8 @@
       <DataExecutionPrevention>false</DataExecutionPrevention>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib\</AdditionalLibraryDirectories>
       <EnableUAC>false</EnableUAC>
+      <StackReserveSize>0x400000</StackReserveSize>
+      <StackCommitSize>0x400000</StackCommitSize>
     </Link>
     <PreBuildEvent>
       <Command>

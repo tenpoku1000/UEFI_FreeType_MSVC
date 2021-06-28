@@ -43,7 +43,7 @@ static void draw_text(
 );
 
 static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(
-    unsigned char* buffer, UINTN width, int pitch, UINTN height
+    unsigned char* buffer, UINTN width, INTN pitch, UINTN height
 );
 
 EFI_STATUS efi_main(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_table)
@@ -392,12 +392,23 @@ static EFI_STATUS load_file2(
         return status;
     }
 
-    *buffer_size = info->FileSize;
+    if (buffer_size && info){
+
+        *buffer_size = info->FileSize;
+    }else{
+
+        error_print(L"buffer_size or info is NULL.\n", NULL);
+    }
 
     FreePool(info);
     info = NULL;
 
-    FT_Byte* p = (FT_Byte*)malloc(*buffer_size);
+    FT_Byte* p = NULL;
+
+    if (buffer_size){
+
+        p = (FT_Byte*)malloc(*buffer_size);
+    }
 
     if (NULL == p){
 
@@ -488,9 +499,10 @@ static void draw_text(
 
         UINTN width = bitmap->width;
         UINTN height = bitmap->rows;
+        INTN pitch = bitmap->pitch;
 
         EFI_GRAPHICS_OUTPUT_BLT_PIXEL* p = conv_bitmap(
-            bitmap->buffer, width, bitmap->pitch, height
+            bitmap->buffer, width, pitch, height
         );
 
         if (NULL == p){
@@ -523,7 +535,7 @@ static void draw_text(
     }
 }
 
-static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(unsigned char* buffer, UINTN width, int pitch, UINTN height)
+static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(unsigned char* buffer, UINTN width, INTN pitch, UINTN height)
 {
     size_t num = width * height;
 
@@ -540,12 +552,16 @@ static EFI_GRAPHICS_OUTPUT_BLT_PIXEL* conv_bitmap(unsigned char* buffer, UINTN w
 
         unsigned char* q = NULL;
 
+        size_t offset = 0;
+
         if (pitch > 0){
 
-            q = buffer + (pitch * j);
+            offset = pitch * j;
+            q = buffer + offset;
         }else{
 
-            q = buffer + (((-pitch) * height) - (pitch * j));
+            offset = pitch * j;
+            q = buffer + (((-pitch) * height) - offset);
         }
 
         for (int i = 0; width > i; ++i){
@@ -649,7 +665,7 @@ int __stdcall WinMain(void)
 
     draw_text(face);
 
-    if (!init_instance(L"font_test")){
+    if ( ! init_instance(L"font_test")){
 
         error_print("init_instance() failed.\n");
     }
@@ -742,7 +758,9 @@ static void draw_text(FT_Face face)
         int baseline = (face->height + face->descender) *
             face->size->metrics.y_ppem / face->units_per_EM;
 
-        size_t num = bitmap->pitch * bitmap->rows;
+        size_t pitch = bitmap->pitch;
+        size_t rows = bitmap->rows;
+        size_t num = pitch * rows;
 
         append_data(
             x + face->glyph->bitmap_left,

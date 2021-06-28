@@ -13,7 +13,9 @@
   <ItemGroup>
     <ClCompile Include="src\errno\strerror.c" />
     <ClCompile Include="src\errno\__errno_location.c" />
+    <ClCompile Include="src\internal\intscan.c" />
     <ClCompile Include="src\internal\libc.c" />
+    <ClCompile Include="src\internal\shgetc.c" />
     <ClCompile Include="src\locale\__lctrans.c" />
     <ClCompile Include="src\locale\__mo_lookup.c" />
     <ClCompile Include="src\locale\__setlocalecat.c" />
@@ -43,9 +45,12 @@
     <ClCompile Include="src\stdio\__stdio_read.c" />
     <ClCompile Include="src\stdio\__stdio_seek.c" />
     <ClCompile Include="src\stdio\__stdio_write.c" />
+    <ClCompile Include="src\stdio\__toread.c" />
     <ClCompile Include="src\stdio\__towrite.c" />
+    <ClCompile Include="src\stdio\__uflow.c" />
     <ClCompile Include="src\stdlib\atol.c" />
     <ClCompile Include="src\stdlib\qsort.c" />
+    <ClCompile Include="src\stdlib\strtol.c" />
     <ClCompile Include="src\string\memchr.c" />
     <ClCompile Include="src\string\memcmp.c" />
     <ClCompile Include="src\string\memcpy.c" />
@@ -90,10 +95,12 @@
     <ClInclude Include="include\stdlib.h" />
     <ClInclude Include="include\string.h" />
     <ClInclude Include="include\sys\syscall.h" />
+    <ClInclude Include="src\internal\intscan.h" />
     <ClInclude Include="src\internal\libc.h" />
     <ClInclude Include="src\internal\libm.h" />
     <ClInclude Include="src\internal\locale_impl.h" />
     <ClInclude Include="src\internal\pthread_impl.h" />
+    <ClInclude Include="src\internal\shgetc.h" />
     <ClInclude Include="src\internal\stdio_impl.h" />
     <ClInclude Include="src\internal\syscall.h" />
   </ItemGroup>
@@ -109,20 +116,20 @@
     <ProjectGuid>{91040D01-285B-49E4-B70B-074C57567F15}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>musl</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>

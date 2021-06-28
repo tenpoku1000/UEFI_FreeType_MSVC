@@ -1,8 +1,9 @@
-﻿# UEFI_FreeType_MSVC
+﻿
+# UEFI_FreeType_MSVC
 
 UEFI アプリケーションで、英日中韓台のアウトライン・フォント表示を行うサンプル・プログラムです。
 
-![screen shot](https://raw.githubusercontent.com/tenpoku1000/UEFI_FreeType_MSVC/master/images/README.PNG)
+![screen shot](images/README.PNG)
 
 以下は、本ソフトウェアのプロジェクト設定やソースコードに関する補足情報のメモです。
 
@@ -11,8 +12,8 @@ http://qiita.com/tenpoku1000/items/5190a1054e6d5078d7a6
 
 ## 開発環境
 
-* Visual Studio Community 2015 + Windows SDK for Windows 10
-https://developer.microsoft.com/ja-jp/windows/hardware/windows-driver-kit
+* Visual Studio Community 2019  
+https://docs.microsoft.com/en-us/windows-hardware/drivers/download-the-wdk
 * 64 ビット版 Windows 10
 * 64 ビット UEFI 対応 PC
 * USB メモリ
@@ -37,7 +38,7 @@ PC の機種によっては、Boot 順序設定変更を恒久的な設定変更
 
 * UEFI_FreeType_MSVC.sln をダブルクリックします。
 * Visual Studio のセキュリティ警告を回避してプロジェクトを開きます。  
-![warning](https://raw.githubusercontent.com/tenpoku1000/UEFI_FreeType_MSVC/master/images/MSVC.PNG)
+![warning](images/MSVC.PNG)
 * 「ビルド」→「構成マネージャ」→「アクティブ ソリューション構成」で「Release」を選択
 * F7 キーを押下します。
 
@@ -49,21 +50,22 @@ Debug ビルドでは bin フォルダ以下に Windows Desktop アプリケー�
 本ソフトウェアは、以下の外部プロジェクトの成果物を利用しています。感謝いたします。
 
 ### The FreeType License
-* The FreeType Project http://www.freetype.org/
+* The FreeType Project https://www.freetype.org/
 
 ### MIT License
 * musl libc http://www.musl-libc.org/
 
 ### BSD License
-* gnu-efi http://sourceforge.net/projects/gnu-efi/
-* UDK2014 http://www.tianocore.org/udk2014/
+* gnu-efi download | SourceForge.net https://sourceforge.net/projects/gnu-efi/
+* UDK2014 Releases · tianocore/tianocore.github.io Wiki  
+https://github.com/tianocore/tianocore.github.io/wiki/UDK2014-Releases
 
 ### Apache License 2.0(Source Han Sans v1.001 or earlier)
 * adobe-fonts/source-han-sans https://github.com/adobe-fonts/source-han-sans
 
 ## ライセンス
 
-[MIT license](https://raw.githubusercontent.com/tenpoku1000/UEFI_FreeType_MSVC/master/LICENSE)
+[混合ライセンス](LICENSE)
 
 ## 作者
 
@@ -71,7 +73,9 @@ Debug ビルドでは bin フォルダ以下に Windows Desktop アプリケー�
 
 ## 参考資料
 
-* Play with UEFI http://www.slideshare.net/syuu1228/play-with-uefi
-* UEFI - PhoenixWiki http://wiki.phoenix.com/wiki/index.php/UEFI
-* FreeType使用記録 http://hp.vector.co.jp/authors/VA028002/freetype.html
+* Play with UEFI https://www.slideshare.net/syuu1228/play-with-uefi
+* Category:UEFI 2.0 - PhoenixWiki  
+https://web.archive.org/web/20181012151104/http://wiki.phoenix.com/wiki/index.php/Category:UEFI_2.0
+* FreeType使用記録  
+https://web.archive.org/web/20170911060053/http://hp.vector.co.jp:80/authors/VA028002/freetype.html
 

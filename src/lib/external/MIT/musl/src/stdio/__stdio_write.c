@@ -22,7 +22,7 @@ size_t __stdio_write(FILE *f, const unsigned char *buf, size_t len)
 
     EFI_FILE* efi_file = f->efi_file;
 
-    EFI_STATUS status = efi_file->Write(efi_file, &len, (void*)&buf);
+    EFI_STATUS status = efi_file->Write(efi_file, &len, (void*)buf);
 
     if (EFI_ERROR(status)){
 

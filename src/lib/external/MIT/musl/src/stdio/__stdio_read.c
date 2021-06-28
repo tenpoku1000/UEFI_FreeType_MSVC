@@ -29,7 +29,7 @@ size_t __stdio_read(FILE *f, unsigned char *buf, size_t len)
 
     size_t length = len;
 
-    EFI_STATUS status = efi_file->Read(efi_file, &len, &buf);
+    EFI_STATUS status = efi_file->Read(efi_file, &len, buf);
 
     if (EFI_ERROR(status)){
 

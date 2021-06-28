@@ -215,6 +215,21 @@
     <ClCompile Include="src\string\strcpy.c">
       <Filter>ソース ファイル\string</Filter>
     </ClCompile>
+    <ClCompile Include="src\internal\intscan.c">
+      <Filter>ソース ファイル\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdlib\strtol.c">
+      <Filter>ソース ファイル\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\internal\shgetc.c">
+      <Filter>ソース ファイル\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__uflow.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdio\__toread.c">
+      <Filter>ソース ファイル\stdio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\setjmp.h">
@@ -306,6 +321,12 @@
     </ClInclude>
     <ClInclude Include="include\bits\limits.h">
       <Filter>ヘッダー ファイル\bits</Filter>
+    </ClInclude>
+    <ClInclude Include="src\internal\intscan.h">
+      <Filter>ヘッダー ファイル\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="src\internal\shgetc.h">
+      <Filter>ヘッダー ファイル\internal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

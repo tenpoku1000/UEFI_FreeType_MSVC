@@ -13,9 +13,11 @@ int __toread(FILE *f)
 	return 0;
 }
 
-void __stdio_exit_needed(void);
-
-void __toread_needs_stdio_exit()
-{
-	__stdio_exit_needed();
-}
+//@@@
+//void __stdio_exit_needed(void);
+//
+//void __toread_needs_stdio_exit()
+//{
+//	__stdio_exit_needed();
+//}
+//@@@

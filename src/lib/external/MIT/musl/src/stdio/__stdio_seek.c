@@ -25,13 +25,41 @@ off_t __stdio_seek(FILE *f, off_t off, int whence)
 
     switch (whence){
     case SEEK_SET:
-        status = efi_file->SetPosition(efi_file, 0);
-        break;
-    case SEEK_END:
-        status = efi_file->SetPosition(efi_file, 0xFFFFFFFFFFFFFFFF);
-        break;
-    default:
         status = efi_file->SetPosition(efi_file, off);
+        break;
+    case SEEK_CUR:{
+
+        UINT64 nPos = 0;
+
+        status = efi_file->GetPosition(efi_file, &nPos);
+
+        if ( ! EFI_ERROR(status)){
+
+            nPos += off;
+            status = efi_file->SetPosition(efi_file, nPos);
+        }
+        break;
+    }
+    case SEEK_END:{
+
+        //seek end
+        status = efi_file->SetPosition(efi_file, 0xFFFFFFFFFFFFFFFF);
+
+        if (off != 0){
+
+            UINT64 nPos = 0;
+
+            EFI_STATUS status = efi_file->GetPosition(f->efi_file, &nPos);
+
+            if ( ! EFI_ERROR(status)){
+
+                nPos += off;
+                status = efi_file->SetPosition(efi_file, nPos);
+            }
+        }
+        break;
+    }
+    default:
         break;
     }
 

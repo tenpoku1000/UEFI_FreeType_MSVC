@@ -1,5 +1,5 @@
 ﻿
-// Copyright 2015 Shin'ichi Ichikawa. Released under the MIT license.
+// (C) Shin'ichi Ichikawa. Released under the MIT license.
 
 #if !defined(_DEBUG)
 
@@ -18,6 +18,7 @@
 #define BOOT_PARTITION_FILE_ACCESS 1
 
 static CHAR16* path = L"\\EFI\\BOOT\\FONTS\\SourceHanSans-Normal.ttc";
+static const char* file_path_name = "\\EFI\\BOOT\\FONTS\\SourceHanSans-Normal.ttc";
 
 static void init(
     EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_table,
@@ -93,8 +94,11 @@ EFI_STATUS efi_main(EFI_HANDLE image_handle, EFI_SYSTEM_TABLE* system_table)
         library = NULL;
     }
 
-    free(buffer);
-    buffer = NULL;
+    if (buffer){
+
+        free(buffer);
+        buffer = NULL;
+    }
 
     reset_system(EFI_SUCCESS);
 
@@ -206,6 +210,7 @@ static void init(
         error_print(L"FT_Init_FreeType() failed.\n", NULL);
     }
 
+#if NEW_MEMORY_FACE
     FT_Long buffer_size = 0;
 
     load_file(image_handle, loaded_image, path, (UINTN*)&buffer_size, buffer);
@@ -222,6 +227,20 @@ static void init(
             error_print(L"FT_New_Memory_Face() failed.\n", NULL);
         }
     }
+#else
+    FT_Error err = FT_New_Face(*library, file_path_name, 0, face);
+
+    if (err){
+
+        if (FT_Err_Unknown_File_Format == err){
+
+            error_print(L"Bad font file.\n", NULL);
+        }else{
+
+            error_print(L"FT_New_Face() failed.\n", NULL);
+        }
+    }
+#endif
 }
 
 static void read_key(void)
